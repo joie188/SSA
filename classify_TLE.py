@@ -34,9 +34,17 @@ def circular_orbit(e):
     if e >= 0.5:
         return "elliptical orbit"
     elif e >= 0.01:
+
         return "near-circular orbit"
     elif e >= 0:  
         return "circular orbit"
+
+def is_sun_synchronous(i, a):
+    T = 2 * math.pi * (a**3/5167000000000)**0.5
+    if math.cos(i) == -(T/3.795)**(7/3):
+        return "sun-synchronous"
+    else:
+        return "not sun-synchronous"
 
 def is_critically_inclined(i):
     if abs(i - CRIT_INCLINATION) <= 0.5:
@@ -45,5 +53,7 @@ def is_critically_inclined(i):
 for sat in (output("TLE.txt")):
     print(sat)
     print(circular_orbit(sat['e']))
+    if circular_orbit(sat['e']) == 'near-circular orbit':
+        print(is_sun_synchronous(sat['i'], sat['a']))
     if is_critically_inclined(sat['i']):
         print("critically inclined orbit")
