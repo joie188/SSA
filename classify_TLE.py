@@ -1,5 +1,7 @@
 import math
 
+CRIT_INCLINATION = 63.4
+
 def output(text_file):
     f = open(text_file, 'r')
     satellite_parameters = []
@@ -14,8 +16,8 @@ def output(text_file):
         e = "." + line2[4]
         sat_param["e"] = float(e)                           #Eccentricity 
         sat_param["M"] = float(line2[6])                    #mean anomaly
-        sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Ω)
-        sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (ω)
+        sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Omega)
+        sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (omega)
         sat_param["i"] = float(line2[2])                    #inclination
         satellite_parameters.append(sat_param)
     return satellite_parameters
@@ -36,7 +38,12 @@ def circular_orbit(e):
     elif e >= 0:  
         return "circular orbit"
 
+def is_critically_inclined(i):
+    if abs(i - CRIT_INCLINATION) <= 0.5:
+        return True
+
 for sat in (output("TLE.txt")):
     print(sat)
-    print(sat['e'])
     print(circular_orbit(sat['e']))
+    if is_critically_inclined(sat['i']):
+        print("critically inclined orbit")
