@@ -8,26 +8,17 @@ def output(text_file):
         line2 = f.readline().split()
         if not line1 or not line2: 
             break  #end of file
-        print(line1) 
-        print(line2)
-        sat_param = []
-        print("Satellite catalog number: ", line1[1])
-        sat_param.append(line1[1])
-        print("Semi-major axis (a): ", semimajor_axis(float(line2[7])))
-        sat_param.append(semimajor_axis(float(line2[7])))
-        print("Eccentricity (e): ", line2[4])
-        sat_param.append(float(line2[4]))
-        print("Mean anomaly (M): ", line2[6])
-        sat_param.append(float(line2[6]))
-        print("Right ascention of ascending node (Ω): ", line2[3])
-        sat_param.append(float(line2[3]))
-        print("Argument of periapsis (ω): ", line2[5])
-        sat_param.append(float(line2[5]))
-        print("Inclination (i): ", line2[2])
-        sat_param.append(float(line2[2]))
+        sat_param = {}
+        sat_param["scn"] = line1[1]     #Satellite catalog number
+        sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis
+        sat_param["e"] = float(line2[4])                    #Eccentricity 
+        sat_param["M"] = float(line2[6])                    #mean anomaly
+        sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Ω)
+        sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (ω)
+        sat_param["i"] = float(line2[2])                    #inclination
         satellite_parameters.append(sat_param)
-    print(satellite_parameters)
-    
+    return satellite_parameters
+
 def semimajor_axis(mean_motion):
     period = 86400*(1/mean_motion)
     grav_parameter = 398600441800000.0
@@ -36,5 +27,5 @@ def semimajor_axis(mean_motion):
     result = (grav_parameter*(period/factor)**2)**(1/3)
     return result
 
-
-output("TLE.txt")
+for sat in (output("TLE.txt")):
+    print(sat)
