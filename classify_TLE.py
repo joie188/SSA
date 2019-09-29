@@ -29,11 +29,12 @@ def output(text_file):
     print(satellite_parameters)
     
 def semimajor_axis(mean_motion):
-    period = 86400*(1/mean_motion)
-    grav_parameter = 398600441800000.0
+    # Calculates semimajor axis based on formula T (period) = 2pi*sqrt(a^3/grav_param)
+    period = 86400*(1/mean_motion) # Converts to Hertz
+    grav_param = 398600441800000.0 # Earth's mass * grav_constant
     factor = 2*math.pi
     
-    result = (grav_parameter*(period/factor)**2)**(1/3)
+    result = (grav_param*(period/factor)**2)**(1/3)
     return result
 
 
