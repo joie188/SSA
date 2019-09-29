@@ -11,7 +11,8 @@ def output(text_file):
         sat_param = {}
         sat_param["scn"] = line1[1]     #Satellite catalog number
         sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis
-        sat_param["e"] = float(line2[4])                    #Eccentricity 
+        e = "." + line2[4]
+        sat_param["e"] = float(e)                           #Eccentricity 
         sat_param["M"] = float(line2[6])                    #mean anomaly
         sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Ω)
         sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (ω)
@@ -24,9 +25,18 @@ def semimajor_axis(mean_motion):
     period = 86400*(1/mean_motion) # Converts to Hertz
     grav_param = 398600441800000.0 # Earth's mass * grav_constant
     factor = 2*math.pi
-    
     result = (grav_param*(period/factor)**2)**(1/3)
     return result
 
+def circular_orbit(e):
+    if e >= 0.6:
+        return "elliptical orbit"
+    elif e >= 0.5:
+        return "near-circular orbit"
+    elif e >= 0:  
+        return "circular orbit"
+
 for sat in (output("TLE.txt")):
     print(sat)
+    print(sat['e'])
+    print(circular_orbit(sat['e']))
