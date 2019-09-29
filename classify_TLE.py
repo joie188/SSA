@@ -1,5 +1,7 @@
 import math
 
+CRIT_INCLINATION = 63.4
+
 def output(text_file):
     f = open(text_file, 'r')
     satellite_parameters = []
@@ -13,8 +15,8 @@ def output(text_file):
         sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis
         sat_param["e"] = float(line2[4])                    #Eccentricity 
         sat_param["M"] = float(line2[6])                    #mean anomaly
-        sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Ω)
-        sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (ω)
+        sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Omega)
+        sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (omega)
         sat_param["i"] = float(line2[2])                    #inclination
         satellite_parameters.append(sat_param)
     return satellite_parameters
@@ -27,6 +29,10 @@ def semimajor_axis(mean_motion):
     
     result = (grav_param*(period/factor)**2)**(1/3)
     return result
+
+def is_critically_inclined(i):
+    if abs(i - CRIT_INCLINATION) <= 00.5:
+        return True
 
 for sat in (output("TLE.txt")):
     print(sat)
