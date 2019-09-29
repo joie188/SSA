@@ -2,6 +2,7 @@ import math
 
 def output(text_file):
     f = open(text_file, 'r')
+    satellite_parameters = []
     while True:
         line1 = f.readline().split()
         line2 = f.readline().split()
@@ -9,17 +10,24 @@ def output(text_file):
             break  #end of file
         print(line1) 
         print(line2)
+        sat_param = []
         print("Satellite catalog number: ", line1[1])
+        sat_param.append(line1[1])
         print("Semi-major axis (a): ", semimajor_axis(float(line2[7])))
+        sat_param.append(semimajor_axis(float(line2[7])))
         print("Eccentricity (e): ", line2[4])
+        sat_param.append(float(line2[4]))
         print("Mean anomaly (M): ", line2[6])
+        sat_param.append(float(line2[6]))
         print("Right ascention of ascending node (Ω): ", line2[3])
+        sat_param.append(float(line2[3]))
         print("Argument of periapsis (ω): ", line2[5])
+        sat_param.append(float(line2[5]))
         print("Inclination (i): ", line2[2])
-
-
-output("TLE.txt")
-
+        sat_param.append(float(line2[2]))
+        satellite_parameters.append(sat_param)
+    print(satellite_parameters)
+    
 def semimajor_axis(mean_motion):
     period = 86400*(1/mean_motion)
     grav_parameter = 398600441800000.0
@@ -27,3 +35,6 @@ def semimajor_axis(mean_motion):
     
     result = (grav_parameter*(period/factor)**2)**(1/3)
     return result
+
+
+output("TLE.txt")
