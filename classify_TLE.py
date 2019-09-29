@@ -1,3 +1,5 @@
+import math
+
 def output(text_file):
     f = open(text_file, 'r')
     while True:
@@ -8,7 +10,7 @@ def output(text_file):
         print(line1) 
         print(line2)
         print("Satellite catalog number: ", line1[1])
-        #print("Semi-major axis (a): ", entry[1])
+        print("Semi-major axis (a): ", semimajor_axis(float(line2[7])))
         print("Eccentricity (e): ", line2[4])
         print("Mean anomaly (M): ", line2[6])
         print("Right ascention of ascending node (Ω): ", line2[3])
@@ -17,3 +19,11 @@ def output(text_file):
 
 
 output("TLE.txt")
+
+def semimajor_axis(mean_motion):
+    period = 86400*(1/mean_motion)
+    grav_parameter = 398600441800000.0
+    factor = 2*math.pi
+    
+    result = (grav_parameter*(period/factor)**2)**(1/3)
+    return result
