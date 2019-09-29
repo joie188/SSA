@@ -31,7 +31,7 @@ def semimajor_axis(mean_motion):
     return result
 
 def is_critically_inclined(i):
-    if abs(i - CRIT_INCLINATION) <= 00.5:
+    if abs(i - CRIT_INCLINATION) <= 0.5:
         return True
 
 for sat in (output("TLE.txt")):
