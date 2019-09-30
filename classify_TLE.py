@@ -42,16 +42,16 @@ def classify_orbit(a, e, i):
     '''
     apo = a*(1 + e) - EARTH_RADIUS
     peri = a*(1 - e) - EARTH_RADIUS
-    if apo < 2000000 and peri < 2000000
+    if apo < 2000000 and peri < 2000000:
         return "low earth orbit (LEO)"
-    elif apo >= 2000000 and apo < 35786000 and peri >= 2000000 and peri <= 35876000
+    elif apo >= 2000000 and apo < 35786000 and peri >= 2000000 and peri <= 35876000:
         return "medium earth orbit (MEO)"
-    elif apo >= 35786000 and apo < 35787000 and peri >= 35786000 and peri < 35787000
-        if(i == 0)
+    elif apo >= 35786000 and apo < 35787000 and peri >= 35786000 and peri < 35787000:
+        if(i == 0):
             return "geostationary orbit"
-        else
+        else:
             return "geosynchronous orbit (GEO)"
-    elif apo > 35786000 and peri > 35786000
+    elif apo > 35786000 and peri > 35786000:
         return "high earth orbit (HEO)"
 
 def circular_orbit(e):
