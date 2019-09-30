@@ -1,6 +1,7 @@
 import math
 
 CRIT_INCLINATION = 63.4
+EARTH_MASS = 5167000000000.0
 
 def output(text_file):
     f = open(text_file, 'r')
@@ -41,8 +42,11 @@ def circular_orbit(e):
         return "circular orbit"
 
 def is_sun_synchronous(i, a):
-    T = 2 * math.pi * (a**3/5167000000000)**0.5
-    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .00001:
+    '''
+    Returns if the satellite is sun-synchronous (only for near-circular orbits)
+    '''
+    T = 2 * math.pi * (a**3/EARTH_MASS)**0.5            #orbital period 
+    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .001:
         return "sun-synchronous"
     else:
         return "not sun-synchronous"
@@ -52,9 +56,9 @@ def is_critically_inclined(i):
         return True
 
 for sat in (output("TLE.txt")):
-    print(sat)
-    print(circular_orbit(sat['e']))
+    print(sat)                                                  #parameters from TLE file
+    print(circular_orbit(sat['e']))                             #satellite's orbit
     if circular_orbit(sat['e']) == 'near-circular orbit':
-        print(is_sun_synchronous(sat['i'], sat['a']))
-    if is_critically_inclined(sat['i']):
+        print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
+    if is_critically_inclined(sat['i']):                        #if critically inclined
         print("critically inclined orbit")
