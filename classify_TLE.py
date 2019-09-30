@@ -34,6 +34,24 @@ def semimajor_axis(mean_motion):
     result = (GRAV_PARAM*(period/factor)**2)**(1/3)
     return result
 
+def classify_orbit(a, e, i):
+    '''
+    Classifies the orbit as either LEO, MEO, GEO, or HEO
+    '''
+    apo = a*(1 + e) - EARTH_RADIUS
+    peri = a*(1 - e) - EARTH_RADIUS
+    if apo < 2000000 and peri < 2000000
+        return "low earth orbit (LEO)"
+    elif apo >= 2000000 and apo < 35786000 and peri >= 2000000 and peri <= 35876000
+        return "medium earth orbit (MEO)"
+    elif apo >= 35786000 and apo < 35787000 and peri >= 35786000 and peri < 35787000
+        if(i == 0)
+            return "geostationary orbit"
+        else
+            return "geosynchronous orbit (GEO)"
+    elif apo > 35786000 and peri > 35786000
+        return "high earth orbit (HEO)"
+
 def circular_orbit(e):
     if e >= 0.5:
         return "elliptical orbit"
