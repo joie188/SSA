@@ -43,14 +43,13 @@ def circular_orbit(e):
 
 def is_sun_synchronous(i, a):
     T = 2 * math.pi * (a**3/5167000000000)**0.5
-    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .00001:
+    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .0001:
         return "sun-synchronous"
     else:
         return "not sun-synchronous"
 
 def is_critically_inclined(i):
-    if abs(i - CRIT_INCLINATION) <= 0.5:
-        return True
+    return abs(i - CRIT_INCLINATION) <= 0.5
 
 for sat in (output("TLE.txt")):
     print(sat)
