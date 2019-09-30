@@ -67,6 +67,7 @@ def is_sun_synchronous(i, a):
     '''
     Returns if the satellite is sun-synchronous (only for near-circular orbits)
     '''
+    i = np.deg2rad(i)
     T = 2 * math.pi * (a**3/EARTH_MASS)**0.5            #orbital period 
     if abs(math.cos(i) - (T/3.795)**(7/3)) <= .001:
         return "sun-synchronous"
@@ -75,16 +76,6 @@ def is_sun_synchronous(i, a):
 
 def is_critically_inclined(i):
     return abs(i - CRIT_INCLINATION) <= 5
-
-bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
-t1 = Table(bigdata)
-t2 = Table(smalldata) 
-
-print('Big dataset')
-print(t1)
-print('------------------------------------------')
-print('Small dataset')
-print(t2)
 
 if __name__=='__main__':
 
@@ -102,13 +93,13 @@ if __name__=='__main__':
         if is_critically_inclined(sat['i']):                        #if critically inclined
             print("critically inclined orbit")
             
-    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
-    t1 = Table(bigdata)
-    t2 = Table(smalldata) 
-    
-    print('Big dataset')
-    print(t1)
-    print('------------------------------------------')
-    print('Small dataset')
-    print(t2)
+#    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
+#    t1 = Table(bigdata)
+#    t2 = Table(smalldata) 
+#    
+#    print('Big dataset')
+#    print(t1)
+#    print('------------------------------------------')
+#    print('Small dataset')
+#    print(t2)
 
