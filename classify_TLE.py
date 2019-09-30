@@ -34,7 +34,7 @@ def semimajor_axis(mean_motion):
     period = 86400*(1/mean_motion) # Converts to Hertz
     factor = 2*math.pi
     result = (GRAV_PARAM*(period/factor)**2)**(1/3)
-    return result
+    return round(result,4)
 
 def classify_orbit(a, e, i):
     '''
@@ -83,6 +83,12 @@ for sat in (output("geo_tle.txt")):
     if is_critically_inclined(sat['i']):                        #if critically inclined
         print("critically inclined orbit")
         
-data = output("TLE.txt")        
-t = Table(rows=data) 
-print(t)
+bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
+t1 = Table(bigdata)
+t2 = Table(smalldata) 
+
+print('Big dataset')
+print(t1)
+print('------------------------------------------')
+print('Small dataset')
+print(t2)
