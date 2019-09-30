@@ -23,7 +23,9 @@ def output(text_file):
     return satellite_parameters
 
 def semimajor_axis(mean_motion):
-    # Calculates semimajor axis based on formula T (period) = 2pi*sqrt(a^3/grav_param)
+    '''
+    Calculates semimajor axis based on formula T (period) = 2pi*sqrt(a^3/grav_param)
+    '''
     period = 86400*(1/mean_motion) # Converts to Hertz
     grav_param = 398600441800000.0 # Earth's mass * grav_constant
     factor = 2*math.pi
@@ -40,7 +42,7 @@ def circular_orbit(e):
 
 def is_sun_synchronous(i, a):
     T = 2 * math.pi * (a**3/5167000000000)**0.5
-    if math.cos(i) == -(T/3.795)**(7/3):
+    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .00001:
         return "sun-synchronous"
     else:
         return "not sun-synchronous"
