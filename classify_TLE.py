@@ -34,7 +34,6 @@ def circular_orbit(e):
     if e >= 0.5:
         return "elliptical orbit"
     elif e >= 0.01:
-
         return "near-circular orbit"
     elif e >= 0:  
         return "circular orbit"
