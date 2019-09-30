@@ -1,6 +1,7 @@
 import math
 from astropy.table import Table
 import numpy as np
+import sys
 
 CRIT_INCLINATION = 63.4
 EARTH_RADIUS = 6371000 #in m
@@ -75,14 +76,6 @@ def is_sun_synchronous(i, a):
 def is_critically_inclined(i):
     return abs(i - CRIT_INCLINATION) <= 5
 
-for sat in (output("geo_tle.txt")):
-    print(sat)                                                  #parameters from TLE file
-    print(circular_orbit(sat['e']))                             #satellite's orbit
-    if circular_orbit(sat['e']) == 'near-circular orbit':
-        print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
-    if is_critically_inclined(sat['i']):                        #if critically inclined
-        print("critically inclined orbit")
-        
 bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
 t1 = Table(bigdata)
 t2 = Table(smalldata) 
@@ -92,3 +85,30 @@ print(t1)
 print('------------------------------------------')
 print('Small dataset')
 print(t2)
+
+if __name__=='__main__':
+
+    filname = ""
+    if (len(sys.argv) != 2):
+        filename = "TLE.txt"
+    else:
+        filename = sys.argv[1]
+
+    for sat in (output(filename)):
+        print(sat)                                                  #parameters from TLE file
+        print(circular_orbit(sat['e']))                             #satellite's orbit
+        if circular_orbit(sat['e']) == 'near-circular orbit':
+            print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
+        if is_critically_inclined(sat['i']):                        #if critically inclined
+            print("critically inclined orbit")
+            
+    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
+    t1 = Table(bigdata)
+    t2 = Table(smalldata) 
+    
+    print('Big dataset')
+    print(t1)
+    print('------------------------------------------')
+    print('Small dataset')
+    print(t2)
+
