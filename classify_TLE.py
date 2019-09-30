@@ -2,6 +2,7 @@ import math
 
 CRIT_INCLINATION = 63.4
 EARTH_MASS = 5167000000000.0
+GRAV_PARAM = 398600441800000.0
 
 def output(text_file):
     f = open(text_file, 'r')
@@ -28,9 +29,8 @@ def semimajor_axis(mean_motion):
     Calculates semimajor axis based on formula T (period) = 2pi*sqrt(a^3/grav_param)
     '''
     period = 86400*(1/mean_motion) # Converts to Hertz
-    grav_param = 398600441800000.0 # Earth's mass * grav_constant
     factor = 2*math.pi
-    result = (grav_param*(period/factor)**2)**(1/3)
+    result = (GRAV_PARAM*(period/factor)**2)**(1/3)
     return result
 
 def circular_orbit(e):
