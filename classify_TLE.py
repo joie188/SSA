@@ -52,9 +52,9 @@ def is_sun_synchronous(i, a):
         return "not sun-synchronous"
 
 def is_critically_inclined(i):
-    return abs(i - CRIT_INCLINATION) <= 0.5
+    return abs(i - CRIT_INCLINATION) <= 5
 
-for sat in (output("TLE.txt")):
+for sat in (output("geo_tle.txt")):
     print(sat)                                                  #parameters from TLE file
     print(circular_orbit(sat['e']))                             #satellite's orbit
     if circular_orbit(sat['e']) == 'near-circular orbit':
