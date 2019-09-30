@@ -1,4 +1,6 @@
 import math
+from astropy.table import Table
+import numpy as np
 
 CRIT_INCLINATION = 63.4
 EARTH_MASS = 5167000000000.0
@@ -61,3 +63,7 @@ for sat in (output("TLE.txt")):
         print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
     if is_critically_inclined(sat['i']):                        #if critically inclined
         print("critically inclined orbit")
+        
+data = output("TLE.txt")        
+t = Table(rows=data) 
+print(t)
