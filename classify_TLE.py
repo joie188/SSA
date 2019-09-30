@@ -1,6 +1,7 @@
 import math
 
 CRIT_INCLINATION = 63.4
+EARTH_RADIUS = 6371000 #in m
 
 def output(text_file):
     f = open(text_file, 'r')
