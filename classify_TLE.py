@@ -8,6 +8,10 @@ EARTH_RADIUS = 6371000 #in m
 EARTH_MASS = 5167000000000.0
 GRAV_PARAM = 398600441800000.0
 
+MOLNIYA_ORBIT_A = 26600000 # meters
+MOLNIYA_RANGE = 500000 # meters
+
+
 def output(text_file):
     f = open(text_file, 'r')
     satellite_parameters = []
@@ -18,7 +22,7 @@ def output(text_file):
             break  #end of file
         sat_param = {}
         sat_param["scn"] = line1[1]     #Satellite catalog number
-        sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis
+        sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis (in meters)
         e = "." + line2[4]
         sat_param["e"] = float(e)                           #Eccentricity 
         sat_param["M"] = float(line2[6])                    #mean anomaly
@@ -77,6 +81,11 @@ def is_sun_synchronous(i, a):
 def is_critically_inclined(i):
     return abs(i - CRIT_INCLINATION) <= 5
 
+
+def is_molniya(sat):
+
+    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A) <= MOLNIYA_RANGE
+
 if __name__=='__main__':
 
     filname = ""
@@ -88,10 +97,17 @@ if __name__=='__main__':
     for sat in (output(filename)):
         print(sat)                                                  #parameters from TLE file
         print(circular_orbit(sat['e']))                             #satellite's orbit
+        
         if circular_orbit(sat['e']) == 'near-circular orbit':
             print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
+
         if is_critically_inclined(sat['i']):                        #if critically inclined
             print("critically inclined orbit")
+
+        if is_molniya(sat):
+            print("molniya orbit")
+
+        print('\n')
             
 #    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
 #    t1 = Table(bigdata)
