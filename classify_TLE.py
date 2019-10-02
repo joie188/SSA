@@ -9,7 +9,7 @@ EARTH_MASS = 5167000000000.0
 GRAV_PARAM = 398600441800000.0
 
 MOLNIYA_ORBIT_A = 26600000 # meters
-MOLNIYA_RANGE = 4000000 # meters
+MOLNIYA_RANGE = 0.11
 
 
 def output(text_file):
@@ -85,7 +85,7 @@ def is_critically_inclined(i):
 
 
 def is_molniya(sat):
-    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A) <= MOLNIYA_RANGE
+    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A)/MOLNIYA_ORBIT_A <= 0.11
 
 if __name__=='__main__':
 
