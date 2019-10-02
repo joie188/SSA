@@ -93,13 +93,13 @@ if __name__=='__main__':
         if is_critically_inclined(sat['i']):                        #if critically inclined
             print("critically inclined orbit")
             
-#    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
-#    t1 = Table(bigdata)
-#    t2 = Table(smalldata) 
+    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
+    t1 = Table(bigdata)
+    t2 = Table(smalldata) 
 #    
 #    print('Big dataset')
 #    print(t1)
 #    print('------------------------------------------')
-#    print('Small dataset')
-#    print(t2)
+    print('Small dataset')
+    print(t2)
 
