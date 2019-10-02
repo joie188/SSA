@@ -48,18 +48,9 @@ def classify_orbit(a, e, i):
     apo = a*(1 + e) - EARTH_RADIUS
     print("apogee = ",apo)
     peri = a*(1 - e) - EARTH_RADIUS
-<<<<<<< HEAD
-    if apo < 2000000 and peri < 2000000:
-        return "low earth orbit (LEO)"
-    elif apo >= 2000000 and apo < 35786000 and peri >= 2000000 and peri <= 35876000:
-        return "medium earth orbit (MEO)"
-    elif apo >= 35786000 and apo < 35787000 and peri >= 35786000 and peri < 35787000:
-        if i == 0:
-=======
     print("perigee = ",peri)
     if a >= 41263000 and a <= 42165000: #technically perfectly geosynchronous orbits have a semi-major axis of 41,264 km
         if i >= -0.1 and i <= 0.1:
->>>>>>> ac0d0cd930db1e7a568bc366bd1997699504e91d
             return "geostationary orbit"
         else:
             return "geosynchronous orbit (GEO)"
@@ -92,19 +83,8 @@ def is_sun_synchronous(i, a):
 def is_critically_inclined(i):
     return abs(i - CRIT_INCLINATION) <= 5
 
-<<<<<<< HEAD
-for sat in (output("TLE.txt")):
-    print(sat)                                                  #parameters from TLE file
-    print(classify_orbit(sat['a'], sat['e'], sat['i']))
-    print(circular_orbit(sat['e']))                             #satellite's orbit
-    if circular_orbit(sat['e']) == 'near-circular orbit':
-        print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
-    if is_critically_inclined(sat['i']):                        #if critically inclined
-        print("critically inclined orbit")
-=======
 
 def is_molniya(sat):
-
     return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A) <= MOLNIYA_RANGE
 
 if __name__=='__main__':
@@ -119,7 +99,6 @@ if __name__=='__main__':
         print(sat)                                                  #parameters from TLE file
         print(circular_orbit(sat['e']))                             #satellite's orbit
         print(classify_orbit(sat['a'], sat['e'], sat['i']))
->>>>>>> ac0d0cd930db1e7a568bc366bd1997699504e91d
         
         if circular_orbit(sat['e']) == 'near-circular orbit':
             print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
