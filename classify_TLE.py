@@ -92,16 +92,6 @@ def is_sun_synchronous(i, a):
 def is_critically_inclined(i):
     return abs(i - CRIT_INCLINATION) <= 5
 
-<<<<<<< HEAD
-for sat in (output("TLE.txt")):
-    print(sat)                                                  #parameters from TLE file
-    print(classify_orbit(sat['a'], sat['e'], sat['i']))
-    print(circular_orbit(sat['e']))                             #satellite's orbit
-    if circular_orbit(sat['e']) == 'near-circular orbit':
-        print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
-    if is_critically_inclined(sat['i']):                        #if critically inclined
-        print("critically inclined orbit")
-=======
 
 def is_molniya(sat):
 
@@ -119,7 +109,6 @@ if __name__=='__main__':
         print(sat)                                                  #parameters from TLE file
         print(circular_orbit(sat['e']))                             #satellite's orbit
         print(classify_orbit(sat['a'], sat['e'], sat['i']))
->>>>>>> ac0d0cd930db1e7a568bc366bd1997699504e91d
         
         if circular_orbit(sat['e']) == 'near-circular orbit':
             print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
