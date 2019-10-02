@@ -67,7 +67,7 @@ def is_sun_synchronous(i, a):
     Returns if the satellite is sun-synchronous (only for near-circular orbits)
     '''
     T = 2 * math.pi * (a**3/EARTH_MASS)**0.5            #orbital period 
-    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .001:
+    if abs(math.cos(math.radians(i)) - (T/3.795)**(7/3)) <= .001:
         return "sun-synchronous"
     else:
         return "not sun-synchronous"
