@@ -9,7 +9,7 @@ EARTH_MASS = 5167000000000.0
 GRAV_PARAM = 398600441800000.0
 
 MOLNIYA_ORBIT_A = 26600000 # meters
-MOLNIYA_RANGE = 500000 # meters
+MOLNIYA_RANGE = 0.11
 
 
 def output(text_file):
@@ -75,7 +75,7 @@ def is_sun_synchronous(i, a):
     '''
     i = np.deg2rad(i)
     T = 2 * math.pi * (a**3/EARTH_MASS)**0.5            #orbital period 
-    if abs(math.cos(i) - (T/3.795)**(7/3)) <= .001:
+    if abs(math.cos(math.radians(i)) - (T/3.795)**(7/3)) <= .001:
         return "sun-synchronous"
     else:
         return "not sun-synchronous"
@@ -85,8 +85,7 @@ def is_critically_inclined(i):
 
 
 def is_molniya(sat):
-
-    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A) <= MOLNIYA_RANGE
+    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A)/MOLNIYA_ORBIT_A <= 0.11
 
 if __name__=='__main__':
 
@@ -112,13 +111,13 @@ if __name__=='__main__':
 
         print('\n')
             
-#    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
-#    t1 = Table(bigdata)
-#    t2 = Table(smalldata) 
+    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
+    t1 = Table(bigdata)
+    t2 = Table(smalldata) 
 #    
 #    print('Big dataset')
 #    print(t1)
 #    print('------------------------------------------')
-#    print('Small dataset')
-#    print(t2)
+    print('Small dataset')
+    print(t2)
 
