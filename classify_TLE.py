@@ -49,7 +49,7 @@ def classify_orbit(a, e, i):
     print("apogee = ",apo)
     peri = a*(1 - e) - EARTH_RADIUS
     print("perigee = ",peri)
-    if a >= 41263000 and a <= 42165000: #technically perfectly geosynchronous orbits have a semi-major axis of 41,264 km
+    if a >= 41263000 and a <= 42166000: #technically perfectly geosynchronous orbits have a semi-major axis of 41,264 km
         if i >= -0.1 and i <= 0.1:
             return "geostationary orbit"
         else:
