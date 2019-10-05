@@ -85,7 +85,7 @@ def is_critically_inclined(i):
 
 
 def is_molniya(sat):
-    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A)/MOLNIYA_ORBIT_A <= 0.11
+    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A)/MOLNIYA_ORBIT_A <= MOLNIYA_RANGE
 
 if __name__=='__main__':
 
@@ -98,6 +98,7 @@ if __name__=='__main__':
     for sat in (output(filename)):
         print(sat)                                                  #parameters from TLE file
         print(circular_orbit(sat['e']))                             #satellite's orbit
+
         print(classify_orbit(sat['a'], sat['e'], sat['i']))
 
         if circular_orbit(sat['e']) == 'near-circular orbit':
