@@ -61,6 +61,14 @@ def classify_orbit(a, e, i):
     elif apo > 35786000: #and peri > 35786000:
         return "high earth orbit (HEO)"
 
+def classify_orbit_M(M):
+    if M < 1:
+        return "high earth orbit (HEO)"
+    elif M >= 1 and M < 11:
+        return "medium earth orbit (MEO)"
+    else:
+        return "low earth orbit (LEO)"
+
 def circular_orbit(e):
     if e >= 0.5:
         return "elliptical orbit"
@@ -85,7 +93,7 @@ def is_critically_inclined(i):
 
 
 def is_molniya(sat):
-    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A)/MOLNIYA_ORBIT_A <= 0.11
+    return abs(sat['periapsis'] - 270) <= 20 and is_critically_inclined(sat['i']) and abs(sat['a'] - MOLNIYA_ORBIT_A)/MOLNIYA_ORBIT_A <= MOLNIYA_RANGE
 
 if __name__=='__main__':
 
@@ -98,8 +106,9 @@ if __name__=='__main__':
     for sat in (output(filename)):
         print(sat)                                                  #parameters from TLE file
         print(circular_orbit(sat['e']))                             #satellite's orbit
-        print(classify_orbit(sat['a'], sat['e'], sat['i']))
-        
+        #print(classify_orbit(sat['a'], sat['e'], sat['i']))
+        print(classify_orbit_M(sat['M']))
+
         if circular_orbit(sat['e']) == 'near-circular orbit':
             print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
 
