@@ -5,6 +5,11 @@ Created on Sat Oct  5 10:59:42 2019
 @author: Brian
 """
 
+"""
+DO NOT USE YET
+ - SOMETHING IS BROKEN AND I NEED TO FIX IT
+"""
+
 import random
 import numpy as np
 import matplotlib.pyplot as plt
@@ -172,7 +177,8 @@ def do_training(rounds, batch_size, layers, layer_size, class_range, input_size,
     steps = [i for i in range(rounds)]
     network = SimpleNN(layers, layer_size, class_range, input_size)
     for i in range(rounds):
-        run_training_one_round(batch_size, network)
+        print(i)
+        run_training_one_round(batch_size, network, training_data)
         if i % update_interval == 0:
             print('round ' + str(i) + ' out of ' +str(len(training_data)) + ' completed.')
             
@@ -182,13 +188,16 @@ def do_training(rounds, batch_size, layers, layer_size, class_range, input_size,
     plt.ylabel("Cost")
         
 
-def run_training_one_round(batch_size, network):
+def run_training_one_round(batch_size, network, training_data):
+    '''
+    Does 1 round of training with specified batch size and network
+    '''
     biases = np.array([[0 for j in range(len(network.neurons[i+1]))] for i in range(network.size-1)])
     weights = np.array([[[0 for k in range(len(network.neurons[i]))]
                                           for j in range(len(network.neurons[i+1]))]
                                           for i in range(network.size - 1)])
     for i in range(batch_size):
-        network.loadImage(training_data[i])
+        network.loadInput(training_data[i])
         network.feedForward()
         gradients = network.doGradientDescent(batch_size)
         for j in gradients:
@@ -207,13 +216,13 @@ def run_training_one_round(batch_size, network):
                     
 
 
-nn = SimpleNN(3, 15, 4, 5)
+nn = SimpleNN(3, 4, 4, 5)
 training_rounds = 10
 data = [[param for param in sat.orbit_param.values()] for sat in sc.sat_list]
 training_data = [data[i] for i in range(len(data)) if i%5 != 0]
 testing_data = [data[i] for i in range(len(data)) if i%5 == 0]
 
-
+#do_training(5, 1649, 2, 15, 4, 5, 1, training_data)
     
     
 

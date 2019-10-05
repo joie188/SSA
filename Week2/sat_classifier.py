@@ -49,7 +49,7 @@ def read_data(data, depth):
     Parses through prepared data and outputs convenient data for Satellite class initialization
     '''
     for i in range(depth):
-        yield (data['Name of Satellite, Alternate Names'][i] ,{key:data[key][i] for key in data if is_relevant(key)}, data['Class of Orbit'][i], data['Type of Orbit'][i])
+        yield (data['Name of Satellite, Alternate Names'][i], {key:data[key][i] for key in data if is_relevant(key)}, data['Class of Orbit'][i], data['Type of Orbit'][i])
 
 class Satellite:
     def __init__(self, interest_param):
@@ -63,23 +63,23 @@ class Satellite:
 
 
         
-data = pd.read_csv("Week2_Problem2.csv")
-org_data = {}
 
-for i in data:
-    if 'Unnamed' not in i and i != 'Comments' and 'Source' not in i:
-        org_data[i] = [i for i in data[i]]
-
-for attr in org_data:
-    data_list = org_data[attr]
-    if can_be_floated(data_list):
-        org_data[attr] = floatify(data_list)
-        
-sat_list = []
-  
-for i in read_data(org_data, 2062):
-    sat_list.append(Satellite(i))
 
     
 if __name__=='__main__':
-    pass
+    data = pd.read_csv("Week2_Problem2.csv")
+    org_data = {}
+    
+    for i in data:
+        if 'Unnamed' not in i and i != 'Comments' and 'Source' not in i:
+            org_data[i] = [i for i in data[i]]
+    
+    for attr in org_data:
+        data_list = org_data[attr]
+        if can_be_floated(data_list):
+            org_data[attr] = floatify(data_list)
+            
+    sat_list = []
+      
+    for i in read_data(org_data, 2062):
+        sat_list.append(Satellite(i))
