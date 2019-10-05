@@ -18,13 +18,13 @@ def output(text_file):
     while True:
         line1 = f.readline().split()
         line2 = f.readline().split()
-        if not line1 or not line2: 
+        if not line1 or not line2:
             break  #end of file
         sat_param = {}
         sat_param["scn"] = line1[1]     #Satellite catalog number
         sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis (in meters)
         e = "." + line2[4]
-        sat_param["e"] = float(e)                           #Eccentricity 
+        sat_param["e"] = float(e)                           #Eccentricity
         sat_param["M"] = float(line2[6])                    #mean anomaly
         sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Omega)
         sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (omega)
@@ -66,7 +66,7 @@ def circular_orbit(e):
         return "elliptical orbit"
     elif e >= 0.01:
         return "near-circular orbit"
-    elif e >= 0:  
+    elif e >= 0:
         return "circular orbit"
 
 def is_sun_synchronous(i, a):
@@ -74,7 +74,7 @@ def is_sun_synchronous(i, a):
     Returns if the satellite is sun-synchronous (only for near-circular orbits)
     '''
     i = np.deg2rad(i)
-    T = 2 * math.pi * (a**3/EARTH_MASS)**0.5            #orbital period 
+    T = 2 * math.pi * (a**3/EARTH_MASS)**0.5            #orbital period
     if abs(math.cos(math.radians(i)) - (T/3.795)**(7/3)) <= .001:
         return "sun-synchronous"
     else:
@@ -99,7 +99,7 @@ if __name__=='__main__':
         print(sat)                                                  #parameters from TLE file
         print(circular_orbit(sat['e']))                             #satellite's orbit
         print(classify_orbit(sat['a'], sat['e'], sat['i']))
-        
+
         if circular_orbit(sat['e']) == 'near-circular orbit':
             print(is_sun_synchronous(sat['i'], sat['a']))           #if near-circular, is sun-synchronous?
 
@@ -110,14 +110,13 @@ if __name__=='__main__':
             print("molniya orbit")
 
         print('\n')
-            
-    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))   
+
+    bigdata, smalldata = (output("geo_tle.txt"), output("TLE.txt"))
     t1 = Table(bigdata)
-    t2 = Table(smalldata) 
-#    
+    t2 = Table(smalldata)
+#
 #    print('Big dataset')
 #    print(t1)
 #    print('------------------------------------------')
     print('Small dataset')
     print(t2)
-
