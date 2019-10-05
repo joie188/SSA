@@ -175,10 +175,15 @@ class SimpleNN:
 def do_training(rounds, batch_size, layers, layer_size, class_range, input_size, update_interval, training_data):
     costs = []
     steps = [i for i in range(rounds)]
+    
     network = SimpleNN(layers, layer_size, class_range, input_size)
     for i in range(rounds):
         print(i)
-        run_training_one_round(batch_size, network, training_data)
+        biases = np.array([[0 for j in range(len(network.neurons[i+1]))] for i in range(network.size-1)])
+        weights = np.array([[[0 for k in range(len(network.neurons[i]))]
+                                          for j in range(len(network.neurons[i+1]))]
+                                          for i in range(network.size - 1)])
+        run_training_one_round(batch_size, network, training_data, weights, biases)
         if i % update_interval == 0:
             print('round ' + str(i) + ' out of ' +str(len(training_data)) + ' completed.')
             
@@ -188,14 +193,10 @@ def do_training(rounds, batch_size, layers, layer_size, class_range, input_size,
     plt.ylabel("Cost")
         
 
-def run_training_one_round(batch_size, network, training_data):
+def run_training_one_round(batch_size, network, training_data, weights, biases):
     '''
     Does 1 round of training with specified batch size and network
     '''
-    biases = np.array([[0 for j in range(len(network.neurons[i+1]))] for i in range(network.size-1)])
-    weights = np.array([[[0 for k in range(len(network.neurons[i]))]
-                                          for j in range(len(network.neurons[i+1]))]
-                                          for i in range(network.size - 1)])
     for i in range(batch_size):
         network.loadInput(training_data[i])
         network.feedForward()

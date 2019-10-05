@@ -53,16 +53,22 @@ def read_data(data, depth):
 
 class Satellite:
     def __init__(self, interest_param):
+        """
+        interest_param is a tuple containing a dict containing the satellite name,
+        orbit parameters, and orbit classifications
+        """
         self.name, self.orbit_param, self.orbit_class, self.orbit_type = interest_param
-
+                  # dict containing     NEO, MEO, GEO,
+                  # apogee, perigee,    or elliptical
+                  # inclination, period,
+                  # and eccentricity
+                  
     def __repr__(self):
-        return repr(self.name) + repr(self.orbit_class) + repr(self.orbit_type)
+        return repr(self.name) + ', ' + repr(self.orbit_class) + ', ' + repr(self.orbit_type)
 
 
-"""ABOVE ARE USEFUL FUNCTIONS"""
+"""ABOVE ARE USEFUL FUNCTIONS AND CLASSES"""
 
-
-        
 
 
     
@@ -79,7 +85,4 @@ if __name__=='__main__':
         if can_be_floated(data_list):
             org_data[attr] = floatify(data_list)
             
-    sat_list = []
-      
-    for i in read_data(org_data, 2062):
-        sat_list.append(Satellite(i))
+    sat_list = [Satellite(i) for i in read_data(org_data, 2062)]
