@@ -48,7 +48,6 @@ def all_same(array):
             return False
     return True
 
-<<<<<<< HEAD
 def random_forest(data, orbit):
     x = np.column_stack(data)[1:, 2:]       #independent variables (e, a, p, T)
     y = np.column_stack(data)[1:, orbit]    #class or type of orbit
@@ -83,31 +82,21 @@ def random_forest(data, orbit):
     print(accuracy_score(y_test, y_pred))
     print("[perigee, apogee, eccentricity, inclination, period]")
     print(model.coef_)
-=======
-def is_relevant(attr):
-    result = 'Perigee' in attr or 'Apogee' in attr or 'Eccentricity' in attr or 'Inclination' in attr or 'Period' in attr
-    return result
->>>>>>> 2c99fde43e115ed5c7a2def8a3b8f41e90747483
 
-def read_data(data, depth):
-    '''
-    Parses through prepared data and outputs convenient data for Satellite class initialization
-    '''
-    for i in range(depth):
-        yield (data['Name of Satellite, Alternate Names'][i] ,{key:data[key][i] for key in data if is_relevant(key)}, data['Class of Orbit'][i], data['Type of Orbit'][i])
+if __name__=='__main__':
 
-class Satellite:
-    def __init__(self, interest_param):
-        self.name, self.orbit_param, self.orbit_class, self.orbit_type = interest_param
+    data = pd.read_csv("Week2_Problem2.csv")
+    org_data = {}
 
-    def __repr__(self):
-        return repr(self.name) + repr(self.orbit_class) + repr(self.orbit_type)
+    for i in data:
+        if 'Unnamed' not in i and i != 'Comments' and 'Source' not in i:
+            org_data[i] = [i for i in data[i]]
 
+    for attr in org_data:
+        data_list = org_data[attr]
+        if can_be_floated(data_list):
+            org_data[attr] = floatify(data_list)
 
-"""ABOVE ARE USEFUL FUNCTIONS"""
-
-
-<<<<<<< HEAD
     '''for attr in org_data:
         print(attr, type(org_data[attr][0]), all_same(org_data[attr]))
         print('--------------------')'''
@@ -119,26 +108,3 @@ class Satellite:
             col_of_interest[attr] = val  
             data_as_mat.append([attr] + val) 
     random_forest(data_as_mat, 0)
-=======
-        
-data = pd.read_csv("Week2_Problem2.csv")
-org_data = {}
-
-for i in data:
-    if 'Unnamed' not in i and i != 'Comments' and 'Source' not in i:
-        org_data[i] = [i for i in data[i]]
-
-for attr in org_data:
-    data_list = org_data[attr]
-    if can_be_floated(data_list):
-        org_data[attr] = floatify(data_list)
-        
-sat_list = []
-  
-for i in read_data(org_data, 2062):
-    sat_list.append(Satellite(i))
-
-    
-if __name__=='__main__':
-    pass
->>>>>>> 2c99fde43e115ed5c7a2def8a3b8f41e90747483
