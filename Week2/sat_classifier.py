@@ -34,11 +34,11 @@ def floatify(array):
     for i in array:
         if isinstance(i, str):
             try:
-                new_array.append(float(i.translate(str.maketrans('', '', string.punctuation))))
+                i = float(i.translate(str.maketrans('', '', string.punctuation)))
             except ValueError:
-                new_array.append(i)
-        else:
-            new_array.append(i)
+                pass
+        
+        new_array.append(i)   
     return new_array
 
 for attr in org_data:
