@@ -6,11 +6,14 @@ Created on Fri Oct  4 21:10:06 2019
 """
 
 import numpy as np
-import random
 import pandas as pd
 import string
         
 def can_be_floated(array):
+    '''
+    returns a boolean determining whether or not elements of an array need
+    to be turned into float values
+    '''
     for i in array:
         if isinstance(i, float) or isinstance(i, int):
             if np.isnan(i):
@@ -22,6 +25,9 @@ def can_be_floated(array):
         return True
         
 def floatify(array):
+    '''
+    Turns all values of an array into a float
+    '''
     new_array = []
     for i in array:
         if isinstance(i, str):
@@ -31,14 +37,6 @@ def floatify(array):
                 pass
         new_array.append(i)   
     return new_array
-
-
-def all_same(array):
-    same_type = type(array[0])
-    for i in array:
-        if type(i) != same_type:
-            return False
-    return True
 
 def is_relevant(attr):
     result = 'Perigee' in attr or 'Apogee' in attr or 'Eccentricity' in attr or 'Inclination' in attr or 'Period' in attr
