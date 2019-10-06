@@ -64,7 +64,7 @@ class Satellite:
                   # and eccentricity
                   
     def __repr__(self):
-        return repr(self.name) + ', ' + repr(self.orbit_class) + ', ' + repr(self.orbit_type)
+        return repr(self.name) + ', ' + repr(self.orbit_class) + repr(self.orbit_type)
 
 
 """ABOVE ARE USEFUL FUNCTIONS AND CLASSES"""
@@ -76,13 +76,12 @@ if __name__=='__main__':
     data = pd.read_csv("Week2_Problem2.csv")
     org_data = {}
     
-    for i in data:
-        if 'Unnamed' not in i and i != 'Comments' and 'Source' not in i:
-            org_data[i] = [i for i in data[i]]
-    
-    for attr in org_data:
-        data_list = org_data[attr]
-        if can_be_floated(data_list):
-            org_data[attr] = floatify(data_list)
+    for attr in data:
+        data_list = data[attr]
+        if 'Unnamed' not in attr and attr != 'Comments' and 'Source' not in attr:
+            if can_be_floated(data_list):
+                org_data[attr] = floatify(data_list)
+            else:
+                org_data[attr] = [i for i in data_list]
             
     sat_list = [Satellite(i) for i in read_data(org_data, 2062)]
