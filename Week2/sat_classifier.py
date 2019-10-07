@@ -7,6 +7,8 @@ Created on Fri Oct  4 21:10:06 2019
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import random
 import string
         
 def can_be_floated(array):
@@ -64,16 +66,9 @@ class Satellite:
     def __repr__(self):
         return repr(self.name) + ', ' + repr(self.orbit_class) + repr(self.orbit_type)
 
-
-"""ABOVE ARE USEFUL FUNCTIONS AND CLASSES"""
-
-
-
-    
-if __name__=='__main__':
+def return_sat_data(orbit=0):
     data = pd.read_csv("Week2_Problem2.csv")
     org_data = {}
-    
     for attr in data:
         data_list = data[attr]
         if 'Unnamed' not in attr and attr != 'Comments' and 'Source' not in attr:
@@ -81,5 +76,16 @@ if __name__=='__main__':
                 org_data[attr] = floatify(data_list)
             else:
                 org_data[attr] = [i for i in data_list]
-            
-    sat_list = [Satellite(i) for i in read_data(org_data, 2062)]
+    Y = []
+    Y.append(org_data['Class of Orbit'])
+    Y.append(org_data['Type of Orbit'])
+    X = [] 
+    for attr, val in org_data.items():
+         if is_relevant(attr):
+             X.append(val)
+    X = np.column_stack(X)              #independent variables (e, a, p, T)
+    Y = np.column_stack(Y)[:, orbit]    #ORBIT = 0 CLASS, ORBIT = 1 TYPE
+    return X,Y
+    
+if __name__=='__main__':
+    pass
