@@ -14,6 +14,7 @@ import sat_classifier as sc
 if __name__=='__main__':
     X,Y = sc.return_sat_data(0)
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.3, random_state = 21)
+    
     # Feature Scaling
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
@@ -27,7 +28,9 @@ if __name__=='__main__':
     ct = pd.crosstab(y_test, y_pred, rownames=['Actual Orbit'], colnames=['Predicted Orbit'])
     print(ct)
     print('Misclassified samples: {}'.format((y_test != y_pred).sum()))
-    print(accuracy_score(y_test, y_pred))
+    print('Accuracy: {}'.format(accuracy_score(y_test, y_pred)))
+    print()
+    print("Weight of parameters: ")
     print("[perigee, apogee, eccentricity, inclination, period]")
     print(classifier.feature_importances_)
     #ct.plot.bar(stacked=True)

@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 from sklearn.externals import joblib
@@ -31,6 +29,8 @@ if __name__=='__main__':
     ct = pd.crosstab(y_test, y_pred, rownames=['Actual Orbit'], colnames=['Predicted Orbit'])
     print(ct)
     print('Misclassified samples: {}'.format((y_test != y_pred).sum()))
-    print(accuracy_score(y_test, y_pred))
+    print('Accuracy: {}'.format(accuracy_score(y_test, y_pred)))
+    print()
+    print("Weight of parameters: ")
     print("[perigee, apogee, eccentricity, inclination, period]")
     print(model.coef_)
