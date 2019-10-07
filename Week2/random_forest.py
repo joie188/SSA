@@ -8,7 +8,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 from sklearn.externals import joblib
-from sklearn.linear_model import LogisticRegression
     
 import sat_classifier as sc
 

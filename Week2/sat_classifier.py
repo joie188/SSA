@@ -66,10 +66,6 @@ class Satellite:
     def __repr__(self):
         return repr(self.name) + ', ' + repr(self.orbit_class) + repr(self.orbit_type)
 
-
-"""ABOVE ARE USEFUL FUNCTIONS AND CLASSES"""
-
-
 def return_sat_data(orbit=0):
     data = pd.read_csv("Week2_Problem2.csv")
     org_data = {}
@@ -80,13 +76,12 @@ def return_sat_data(orbit=0):
                 org_data[attr] = floatify(data_list)
             else:
                 org_data[attr] = [i for i in data_list]
-       
     Y = []
     Y.append(org_data['Class of Orbit'])
     Y.append(org_data['Type of Orbit'])
     X = [] 
     for attr, val in org_data.items():
-         if 'Perigee' in attr or 'Apogee' in attr or 'Eccentricity' in attr or 'Inclination' in attr or 'Period' in attr:
+         if is_relevant(attr):
              X.append(val)
     X = np.column_stack(X)              #independent variables (e, a, p, T)
     Y = np.column_stack(Y)[:, orbit]    #ORBIT = 0 CLASS, ORBIT = 1 TYPE
