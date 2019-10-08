@@ -66,7 +66,7 @@ class Satellite:
     def __repr__(self):
         return repr(self.name) + ', ' + repr(self.orbit_class) + repr(self.orbit_type)
 
-def return_sat_data(orbit=0):
+def organize_data():
     data = pd.read_csv("Week2_Problem2.csv")
     org_data = {}
     for attr in data:
@@ -76,16 +76,29 @@ def return_sat_data(orbit=0):
                 org_data[attr] = floatify(data_list)
             else:
                 org_data[attr] = [i for i in data_list]
+    return org_data
+
+def return_sat_data(orbit=0):
+    org_data = organize_data()
     Y = []
     Y.append(org_data['Class of Orbit'])
     Y.append(org_data['Type of Orbit'])
     X = [] 
     for attr, val in org_data.items():
          if is_relevant(attr):
+             print(attr)
              X.append(val)
     X = np.column_stack(X)              #independent variables (e, a, p, T)
     Y = np.column_stack(Y)[:, orbit]    #ORBIT = 0 CLASS, ORBIT = 1 TYPE
     return X,Y
+
+def clustering_data():
+    org_data = organize_data()
+    sat_list = []
+    for i in read_data(org_data, 2062):
+        sat_list.append(Satellite(i))
+    sat_list = [Satellite(i) for i in read_data(org_data, 2062)]
+    return sat_list
     
 if __name__=='__main__':
     pass
