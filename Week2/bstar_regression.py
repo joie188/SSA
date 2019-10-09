@@ -17,7 +17,7 @@ X = epoch
 y = bstar
 
 X = X.reshape(-1,1)
-y = y.reshape(-1,1)
+#y = y.reshape(-1,1)
 
 import numpy as np
 from sklearn.svm import SVR
