@@ -13,6 +13,7 @@ DO NOT USE YET
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 import sat_classifier as sc
 
@@ -28,7 +29,7 @@ class SimpleNN:
         self.class_range = class_range
         self.image_size = image_size
         self.memo = {} # For backpropagation DP
-        self.expected = 2
+        self.expected = None
 
         # Initialize all neurons
         self.neurons = [np.array([random.random() for i in range(self.image_size)])]
@@ -38,20 +39,34 @@ class SimpleNN:
         self.size = len(self.neurons)
 
         # Initialize weights and biases
-        self.biases = np.array([[random.uniform(-3,3) for j in range(len(self.neurons[i+1]))] for i in range(self.size-1)])
-        self.weights = np.array([[[random.uniform(-3,3) for k in range(len(self.neurons[i]))]
-                                          for j in range(len(self.neurons[i+1]))]
-                                          for i in range(self.size - 1)])
+        self.biases = [np.array([random.uniform(-3,3) for j in range(len(self.neurons[i+1]))]) for i in range(self.size-1)]
+        self.weights = [np.array([[random.uniform(-3,3) for k in range(len(self.neurons[i]))]
+                                          for j in range(len(self.neurons[i+1]))])
+                                          for i in range(self.size - 1)]
 
     # The feed-forward stage
-    def loadInput(self, data):
-        data_copy = [i for i in data]
-        self.neurons[0] = data_copy
+    def loadData(self, data):
+        input_layer, self.expected = data
+        layer_placeholder = []
+        for i in input_layer:
+            if np.isnan(i) or i < .00000000001:
+                i = 0
+            layer_placeholder.append(i)
+        t = np.array(layer_placeholder)
+        self.neurons[0] = t
 
     def feedForward(self):
         for i in range(self.size - 1):
             a = np.matmul(self.weights[i], self.neurons[i]) + self.biases[i]
-            self.neurons[i+1] = sigmoid(a)
+            layer = sigmoid(a)
+            layer_placeholder = []
+            for j in layer:
+                if np.isnan(i) or j < .00000000001:
+                    j = 0
+                layer_placeholder.append(j)
+            t = np.array(layer_placeholder)
+            self.neurons[i+1] = t
+                
 
     def calculateError(self):
         error = 0
@@ -175,20 +190,26 @@ class SimpleNN:
 def do_training(rounds, batch_size, layers, layer_size, class_range, input_size, update_interval, training_data):
     costs = []
     steps = [i for i in range(rounds)]
+    start = time.time()
     
     network = SimpleNN(layers, layer_size, class_range, input_size)
     for i in range(rounds):
         print(i)
-        biases = np.array([[0 for j in range(len(network.neurons[i+1]))] for i in range(network.size-1)])
-        weights = np.array([[[0 for k in range(len(network.neurons[i]))]
-                                          for j in range(len(network.neurons[i+1]))]
-                                          for i in range(network.size - 1)])
-        run_training_one_round(batch_size, network, training_data, weights, biases)
+        biases = [np.array([0 for j in range(len(network.neurons[i+1]))]) for i in range(network.size-1)]
+        weights = [np.array([[0 for k in range(len(network.neurons[i]))]
+                                          for j in range(len(network.neurons[i+1]))])
+                                          for i in range(network.size - 1)]
+    
+        cost = run_training_one_round(batch_size, network, training_data, weights, biases)
+        costs.append(cost/batch_size)
+        elapsed_time = time.time()
+        print('Current elapsed time: ' + str(elapsed_time - start))
         if i % update_interval == 0:
-            print('round ' + str(i) + ' out of ' +str(len(training_data)) + ' completed.')
+            print('round ' + str(i) + ' out of ' +str(rounds) + ' completed.')
+            print('Current cost: ' + str(cost/batch_size))
             
     plt.plot(steps, costs)
-    plt.title('Cost over training steps')
+    plt.title('Average cost over training steps')
     plt.xlabel("Training steps")
     plt.ylabel("Cost")
         
@@ -197,8 +218,9 @@ def run_training_one_round(batch_size, network, training_data, weights, biases):
     '''
     Does 1 round of training with specified batch size and network
     '''
+    cost = 0
     for i in range(batch_size):
-        network.loadInput(training_data[i])
+        network.loadData(training_data[i])
         network.feedForward()
         gradients = network.doGradientDescent(batch_size)
         for j in gradients:
@@ -207,8 +229,20 @@ def run_training_one_round(batch_size, network, training_data, weights, biases):
             else:
                 biases[j[1]][j[2]] += j[-1]
         network.memo = {}
-    network.biases -= biases
-    network.weights -= weights
+        cost += network.calculateError()
+        
+    for i in range(len(network.biases)):
+        network.biases[i] -= biases[i]
+    for i in range(len(network.weights)):
+        network.weights[i] -= weights[i]
+    return cost
+    
+def test_network(network, test_data, class_range):
+    results = []
+    for sample in test_data:
+        network.loadData(sample)
+        network.feedForward()
+        results.append(network.neurons[-1])
     
     
                    
@@ -217,13 +251,80 @@ def run_training_one_round(batch_size, network, training_data, weights, biases):
                     
 
 
-nn = SimpleNN(3, 4, 4, 5)
-training_rounds = 10
-data = [[param for param in sat.orbit_param.values()] for sat in sc.sat_list]
-training_data = [data[i] for i in range(len(data)) if i%5 != 0]
-testing_data = [data[i] for i in range(len(data)) if i%5 == 0]
 
-#do_training(5, 1649, 2, 15, 4, 5, 1, training_data)
-    
-    
+X, Y = sc.return_sat_data()
+training_data = []
+test_data = []
+class_range = ['LEO', 'MEO', 'GEO', 'Elliptical']
+
+for i in range(len(X)):
+    data_point = (X[i], class_range.index(Y[i]))
+    if i%5 == 0:
+        test_data.append(data_point)
+    else:
+        training_data.append(data_point)
+
+
+costs = []
+nn = SimpleNN(2, 7, 4, 5)
+
+start = time.time()
+for i in range(200):
+    biases = [np.array([0.0 for j in range(len(nn.neurons[i+1]))]) for i in range(3)]
+    weights = [np.array([[0.0 for k in range(len(nn.neurons[i]))]
+                                          for j in range(len(nn.neurons[i+1]))])
+                                          for i in range(3)]
+    past_cost = 999
+    cost = 0
+    for sample in training_data:
+        nn.loadData(sample)
+        nn.feedForward()
+        gradients = nn.doGradientDescent(1649)
+        for partial in gradients:
+            a = partial[1]
+            b = partial[2]
+            if partial[0] == 'w':
+                c = partial[3]
+                weights[a][b][c] += partial[-1]
+            else:
+                biases[a][b] += partial[-1]
+        cost += (nn.calculateError()/1649)
+        nn.memo = {}
+    if past_cost < cost:
+        break
+    else:
+        past_cost = cost
+    for j in range(len(nn.biases)):
+        nn.biases[j] -= biases[j]
+    for j in range(len(nn.weights)):
+        nn.weights[j] -= weights[j]
+    costs.append(cost)
+    if i % 1 == 0:
+        print('Cost at round {}: '.format(i+1), nn.calculateError())
+    elapsed = time.time()
+    print(str(elapsed - start) + ' seconds elapsed')
+        
+end = time.time()    
+print(end - start) 
+
+plt.plot([i for i in range(200)], costs)
+plt.title('Cost over training steps')
+plt.xlabel("Training steps")
+plt.ylabel("Cost")
+#     
+
+a = []
+for sample in test_data:
+    nn.loadData(sample)
+    nn.feedForward()
+    a.append(np.argmax(nn.neurons[-1]))
+
+total = 0
+
+for i in range(len(a)):
+    if a[i] == test_data[i][1]:
+        total += 1
+
+print('Classification accuracy was: ' + str(total/413))
+        
 
