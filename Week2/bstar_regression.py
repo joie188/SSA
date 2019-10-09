@@ -16,6 +16,9 @@ bstar = data['BSTAR'].to_numpy()
 X = epoch
 y = bstar
 
+X = X.reshape(-1,1)
+y = y.reshape(-1,1)
+
 import numpy as np
 from sklearn.svm import SVR
 import matplotlib.pyplot as plt
@@ -31,9 +34,9 @@ import matplotlib.pyplot as plt
 
 # #############################################################################
 # Fit regression model
-svr_rbf = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=.1)
-svr_lin = SVR(kernel='linear', C=100, gamma='auto')
-svr_poly = SVR(kernel='poly', C=100, gamma='auto', degree=3, epsilon=.1,
+svr_rbf = SVR(kernel='rbf', C=1, gamma=0.1, epsilon=.1)
+svr_lin = SVR(kernel='linear', C=1, gamma='auto')
+svr_poly = SVR(kernel='poly', C=1, gamma='auto', degree=3, epsilon=.1,
                coef0=1)
 
 # #############################################################################
@@ -43,6 +46,8 @@ lw = 2
 svrs = [svr_rbf, svr_lin, svr_poly]
 kernel_label = ['RBF', 'Linear', 'Polynomial']
 model_color = ['m', 'c', 'g']
+
+#import pdb; pdb.set_trace()
 
 fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 10), sharey=True)
 for ix, svr in enumerate(svrs):
