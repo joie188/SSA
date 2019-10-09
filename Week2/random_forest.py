@@ -12,7 +12,7 @@ from sklearn.externals import joblib
 import sat_classifier as sc
 
 if __name__=='__main__':
-    X,Y = sc.return_sat_data(0)
+    X,Y = sc.return_sat_data(1)
     X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.3, random_state = 21)
     
     # Feature Scaling
