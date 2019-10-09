@@ -328,10 +328,3 @@ for i in range(len(a)):
 print('Classification accuracy was: ' + str(total/413))
         
 
-        
-
-
-for i in range(3):
-    weights = [np.array([[0.0 for k in range(5)] for j in range(6)]) for i in range(3)]
-    for j in range(2):
-        weights[1][2][1] += 12.120103
