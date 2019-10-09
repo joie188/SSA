@@ -13,10 +13,10 @@ import sat_classifier as sc
 
 
 if __name__ == "__main__":
-    X,Y = sc.return_sat_data(0)
+    X,Y = sc.return_sat_data(1)
 
     #train-test split
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state=21)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.3, random_state=21)
 
     #feature scaling
     scaler = sklearn.preprocessing.StandardScaler()
@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
 
     #fitting the model
-    svc = svm.SVC(C=1,kernel='linear', decision_function_shape='ovr')
+    svc = svm.SVC(C=1,kernel='rbf', decision_function_shape='ovr')
     svc.fit(X_train, Y_train)
 
     #testing the model
