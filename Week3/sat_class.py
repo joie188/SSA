@@ -27,15 +27,12 @@ def output(text_file):
             break  #end of file
         sat_param = {}
         sat_param["scn"] = line1[1]     #Satellite catalog number
-        sat_param["a"] = semimajor_axis(float(line2[7]))   #semi major axis (in meters)
         e = "." + line2[4]
-        sat_param["e"] = float(e)                           #Eccentricity
-        sat_param["M"] = float(line2[6])                    #mean anomaly
-        sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Omega)
-        sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (omega)
-        sat_param["i"] = float(line2[2])                    #inclination
-        sat_param['orbit_params'] = classify_orbit(sat_param['a'], sat_param["e"], sat_param["i"]) # tuple containing orbit class, apogee, perigee
-        sat_param['time'] = (float(line1[3][:2]), float(line1[3][2:])) # tuple containing year in  first position, day and fractional day in second
+        relevant_info = [semimajor_axis(float(line2[7])), float(e), float(line2[2]), float(line2[6]), float(line2[3]), float(line2[5])]
+                         #semi major axis (in meters)   Eccentricity    inclin        mean anomaly        Omega            omega             
+        sat_param['orbit_params'] = classify_orbit(*relevant_info[:3]) # tuple containing orbit class, apogee, perigee
+        sat_param['relevant_info'] = relevant_info
+        sat_param['time'] = (int(line1[3][:2]), float(line1[3][2:])) # tuple containing year in  first position, day and fractional day in second
         satellite_parameters.append(sat_param)
     return satellite_parameters
 
