@@ -7,6 +7,7 @@ Created on Wed Oct 16 16:13:40 2019
 
 import math
 import numpy as np
+import sys
 
 CRIT_INCLINATION = 63.4
 EARTH_RADIUS = 6371000 #in m
@@ -42,6 +43,29 @@ def vectorize(text_file):
     times = np.array([entry['time'] for entry in data])
     return (params, times)
 
+def get_nearest_time(time_list, text_file):
+    time_yr = time_list[0]
+    time_day = time_list[1]
+
+    data = vectorize(text_file)
+
+    time_data = data[1]
+    smallest_difference = 99999999
+    closest_index = 0
+    for i in range(0,len(time_data)):
+        tle = time_data[i]
+        if tle[0] != time_yr:
+            continue
+        elif abs(time_day - tle[1]) < smallest_difference:
+            smallest_difference = abs(time_day - tle[1])
+            closest_index = i
+
+    print(time_data[closest_index])
+    out_tle = []
+    for i in range(0, len(data[0])):
+        out_tle.append(data[0][i][closest_index])
+    return out_tle
+
 def semimajor_axis(mean_motion):
     '''
     Calculates semimajor axis based on formula T (period) = 2pi*sqrt(a^3/grav_param)
@@ -68,3 +92,4 @@ def classify_orbit(a, e, i):
         orbit_type = "HEO"
     
     return (orbit_type, apo, peri)
+
