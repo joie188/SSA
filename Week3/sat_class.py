@@ -34,7 +34,8 @@ def output(text_file):
         sat_param["raa"] = float(line2[3])                  #Right ascention of ascending node (Omega)
         sat_param["periapsis"] = float(line2[5])            #Argument of periapsis (omega)
         sat_param["i"] = float(line2[2])                    #inclination
-        sat_param['orbit_params'] = classify_orbit(sat_param['a'], sat_param["e"], sat_param["i"])
+        sat_param['orbit_params'] = classify_orbit(sat_param['a'], sat_param["e"], sat_param["i"]) # tuple containing orbit class, apogee, perigee
+        sat_param['time'] = (float(line1[3][:2]), float(line1[3][2:])) # tuple containing year in  first position, day and fractional day in second
         satellite_parameters.append(sat_param)
     return satellite_parameters
 
