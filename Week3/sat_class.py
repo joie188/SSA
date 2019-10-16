@@ -36,6 +36,12 @@ def output(text_file):
         satellite_parameters.append(sat_param)
     return satellite_parameters
 
+def vectorize(text_file):
+    data = output(text_file)
+    params = np.array([entry['relevant_info'] for entry in data]).transpose()
+    times = np.array([entry['time'] for entry in data])
+    return (params, times)
+
 def semimajor_axis(mean_motion):
     '''
     Calculates semimajor axis based on formula T (period) = 2pi*sqrt(a^3/grav_param)
