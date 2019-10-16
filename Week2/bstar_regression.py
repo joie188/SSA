@@ -1,69 +1,58 @@
 # Created by Luke de Castro, 10/9/19
 
 
-import numpy as np
+import numpy
 import pandas as pd
 import matplotlib.pyplot as plt
 import random
 import string
 
+import numpy as np
+from sklearn.svm import SVR
+import matplotlib.pyplot as plt
+import sklearn.preprocessing
+
+import scipy.optimize
 
 data = pd.read_csv("Week2_Problem3.csv")
 
 epoch = data['EPOCH_MICROSECONDS'].to_numpy()
 bstar = data['BSTAR'].to_numpy()
 
+y = []
+for s in bstar:
+	y.append(s)
+
 X = epoch
-y = bstar
+#y = bstar
 
-X = X.reshape(-1,1)
-#y = y.reshape(-1,1)
+def sin_func(sin_param, x):
+	return (sin_param["amp"] * numpy.sin(sin_param['omega']*x + sin_param["offset"]) + sin_param['freq'])
 
-import numpy as np
-from sklearn.svm import SVR
-import matplotlib.pyplot as plt
+def fit_sin(tt, yy):
+    '''Fit sin to the input time sequence, and return fitting parameters "amp", "omega", "phase", "offset", "freq", "period" and "fitfunc"'''
+    tt = numpy.array(tt)
+    yy = numpy.array(yy)
+    ff = numpy.fft.fftfreq(len(tt), (tt[1]-tt[0]))   # assume uniform spacing
+    Fyy = abs(numpy.fft.fft(yy))
+    guess_freq = abs(ff[numpy.argmax(Fyy[1:])+1])   # excluding the zero frequency "peak", which is related to offset
+    guess_amp = numpy.std(yy) * 2.**0.5
+    guess_offset = numpy.mean(yy)
+    guess = numpy.array([guess_amp, 2.*numpy.pi*guess_freq, 0., guess_offset])
 
-# #############################################################################
-# # Generate sample data
-# X = np.sort(5 * np.random.rand(40, 1), axis=0)
-# y = np.sin(X).ravel()
+    def sinfunc(t, A, w, p, c):  return A * numpy.sin(w*t + p) + c
+    popt, pcov = scipy.optimize.curve_fit(sinfunc, tt, yy, p0=guess)
+    A, w, p, c = popt
+    f = w/(2.*numpy.pi)
+    fitfunc = lambda t: A * numpy.sin(w*t + p) + c
+    return {"amp": A, "omega": w, "phase": p, "offset": c, "freq": f, "period": 1./f, "fitfunc": fitfunc, "maxcov": numpy.max(pcov), "rawres": (guess,popt,pcov)}
 
-# #############################################################################
-# Add noise to targets
-#y[::5] += 3 * (0.5 - np.random.rand(8))
+sin_param = fit_sin(X, y)
 
-# #############################################################################
-# Fit regression model
-svr_rbf = SVR(kernel='rbf', C=1, gamma=0.1, epsilon=.1)
-svr_lin = SVR(kernel='linear', C=1, gamma='auto')
-svr_poly = SVR(kernel='poly', C=1, gamma='auto', degree=3, epsilon=.1,
-               coef0=1)
 
-# #############################################################################
-# Look at the results
-lw = 2
-
-svrs = [svr_rbf, svr_lin, svr_poly]
-kernel_label = ['RBF', 'Linear', 'Polynomial']
-model_color = ['m', 'c', 'g']
-
-#import pdb; pdb.set_trace()
-
-fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 10), sharey=True)
-for ix, svr in enumerate(svrs):
-    axes[ix].plot(X, svr.fit(X, y).predict(X), color=model_color[ix], lw=lw,
-                  label='{} model'.format(kernel_label[ix]))
-    axes[ix].scatter(X[svr.support_], y[svr.support_], facecolor="none",
-                     edgecolor=model_color[ix], s=50,
-                     label='{} support vectors'.format(kernel_label[ix]))
-    axes[ix].scatter(X[np.setdiff1d(np.arange(len(X)), svr.support_)],
-                     y[np.setdiff1d(np.arange(len(X)), svr.support_)],
-                     facecolor="none", edgecolor="k", s=50,
-                     label='other training data')
-    axes[ix].legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),
-                    ncol=1, fancybox=True, shadow=True)
-
-fig.text(0.5, 0.04, 'data', ha='center', va='center')
-fig.text(0.06, 0.5, 'target', ha='center', va='center', rotation='vertical')
-fig.suptitle("Support Vector Regression", fontsize=14)
-plt.show()
+pred_file = open('bstar_pred.txt', 'w')
+y_pred = []
+for t in epoch:
+	y_pred.append(sin_func(sin_param, t))
+	pred_file.write(str(sin_func(sin_param, t)))
+	pred_file.write('\n')

@@ -61,7 +61,7 @@ class SimpleNN:
             layer = sigmoid(a)
             layer_placeholder = []
             for j in layer:
-                if np.isnan(i) or j < .00000000001:
+                if np.isnan(j) or j < .00000000001:
                     j = 0
                 layer_placeholder.append(j)
             t = np.array(layer_placeholder)
@@ -268,13 +268,13 @@ for i in range(len(X)):
 costs = []
 nn = SimpleNN(2, 7, 4, 5)
 
+past_cost = 999
 start = time.time()
 for i in range(200):
     biases = [np.array([0.0 for j in range(len(nn.neurons[i+1]))]) for i in range(3)]
     weights = [np.array([[0.0 for k in range(len(nn.neurons[i]))]
                                           for j in range(len(nn.neurons[i+1]))])
                                           for i in range(3)]
-    past_cost = 999
     cost = 0
     for sample in training_data:
         nn.loadData(sample)
@@ -299,10 +299,11 @@ for i in range(200):
     for j in range(len(nn.weights)):
         nn.weights[j] -= weights[j]
     costs.append(cost)
-    if i % 1 == 0:
+    if i % 20 == 0:
         print('Cost at round {}: '.format(i+1), nn.calculateError())
-    elapsed = time.time()
-    print(str(elapsed - start) + ' seconds elapsed')
+        elapsed = time.time()
+        print(str(elapsed - start) + ' seconds elapsed')
+
         
 end = time.time()    
 print(end - start) 
