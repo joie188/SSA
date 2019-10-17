@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import sat_class as sat
 
-THRESHOLD = 100000 # distance in meters
+THRESHOLD = 200000 # distance in meters
 encounters = [] #list of encounter objects
 
 def time_matcher(timelist1, timelist2):
@@ -193,3 +193,4 @@ def compare_all_sats(min_distance):
 #
 #
 #
+
