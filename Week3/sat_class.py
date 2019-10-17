@@ -38,7 +38,8 @@ def output(text_file):
 
 def vectorize(text_file):
     data = output(text_file)
-    params = np.array([entry['relevant_info'] for entry in data]).transpose()
+    # gets data from text file
+    params = np.array([entry['relevant_info'] for entry in data]).transpose() # converts to column vector
     times = np.array([entry['time'] for entry in data])
     return (params, times)
 
