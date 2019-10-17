@@ -23,8 +23,9 @@ y = []
 for s in bstar:
 	y.append(s)
 
-X = epoch
-#y = bstar
+X = []
+for s in epoch:
+	X.append(s / 100000)
 
 def sin_func(sin_param, x):
 	return (sin_param["amp"] * numpy.sin(sin_param['omega']*x + sin_param["offset"]) + sin_param['freq'])
@@ -53,6 +54,6 @@ sin_param = fit_sin(X, y)
 pred_file = open('bstar_pred.txt', 'w')
 y_pred = []
 for t in epoch:
-	y_pred.append(sin_func(sin_param, t))
+	y_pred.append(sin_func(sin_param, t / 100000))
 	pred_file.write(str(sin_func(sin_param, t)))
 	pred_file.write('\n')

@@ -18,6 +18,8 @@ def output(text_file):
     while True:
         line1 = f.readline().split()
         line2 = f.readline().split()
+        if not line2:
+            break
         sat_param = {}
         
         a = semimajor_axis(float(line2[7])) 
@@ -32,7 +34,7 @@ def output(text_file):
         sat_param["inclination"] = float(line2[2])          #Inclination
         sat_param["period"] = 86400 * 1/(float(line2[7]))   #Period 
         satellite_parameters.append(sat_param)
-        break 
+         
     return satellite_parameters
 
 def semimajor_axis(mean_motion):
