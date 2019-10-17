@@ -44,7 +44,7 @@ def vectorize(text_file):
     times = np.array([entry['time'] for entry in data])
     return (params, times)
 
-def get_nearest_time(time_list, text_file):
+def get_nearest_time(time_list, text_file, output=0):
     time_yr = time_list[0]
     time_day = time_list[1]
 
@@ -61,11 +61,15 @@ def get_nearest_time(time_list, text_file):
             smallest_difference = abs(time_day - tle[1])
             closest_index = i
 
-    print(time_data[closest_index])
-    out_tle = []
-    for i in range(0, len(data[0])):
-        out_tle.append(data[0][i][closest_index])
-    return out_tle
+    #print(time_data[closest_index])
+
+    if output == 0:
+        out_tle = []
+        for i in range(0, len(data[0])):
+            out_tle.append(data[0][i][closest_index])
+        return out_tle
+    elif output == 1:
+        return time_data[closest_index]
 
 def semimajor_axis(mean_motion):
     '''
@@ -94,3 +98,4 @@ def classify_orbit(a, e, i):
     
     return (orbit_type, apo, peri)
 
+#import pdb; pdb.set_trace()
