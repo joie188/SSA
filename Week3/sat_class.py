@@ -39,10 +39,11 @@ def output(text_file):
 
 def vectorize(text_file):
     data = output(text_file)
+    name = data[0]['scn']
     # gets data from text file
     params = np.array([entry['relevant_info'] for entry in data]).transpose() # converts to column vector
-    times = np.array([entry['time'] for entry in data])
-    return (params, times)
+    times = [entry['time'] for entry in data]
+    return (params, name, times)
 
 def get_nearest_time(time_list, text_file, output=0):
     time_yr = time_list[0]
@@ -53,7 +54,7 @@ def get_nearest_time(time_list, text_file, output=0):
     time_data = data[1]
     smallest_difference = 99999999
     closest_index = 0
-    for i in range(0,len(time_data)):
+    for i in range(len(time_data)):
         tle = time_data[i]
         if tle[0] != time_yr:
             continue
