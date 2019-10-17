@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import sat_class as sat
 
-THRESHOLD = 100000 # distance in meters
+THRESHOLD = 200000 # distance in meters
 encounters = [] #list of encounter objects
 
 class TLE:
@@ -96,7 +96,7 @@ if __name__ == '__main__':
     datasets = ['25473.txt', '26824.txt', '27438.txt', '39509.txt', '40258.txt']
 
     for i in range(0, len(datasets) - 1):
-        for j in range(i+1, len(datasets) - 1):
+        for j in range(i+1, len(datasets)):
             compare_sats(datasets[i], datasets[j], THRESHOLD)
 
     for enc in encounters:
