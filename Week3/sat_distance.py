@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import sat_class as sat
 
-THRESHOLD = 200000 # distance in meters
+THRESHOLD = 50000 # distance in meters
 encounters = [] #list of encounter objects
 
 class TLE:
@@ -11,10 +11,10 @@ class TLE:
     def __init__(self, relevant_info, scn, time):
         self.a = relevant_info[0]  #semi major axis (in meters)
         self.e = relevant_info[1]   #Eccentricity
-        self.M = relevant_info[3]   #mean anomaly
-        self.raa = relevant_info[4] #Right ascention of ascending node (Omega)
-        self.periapsis = relevant_info[5]   #Argument of periapsis (omega)
-        self.i = relevant_info[2]   #inclination
+        self.M = np.deg2rad(relevant_info[3])   #mean anomaly
+        self.raa = np.deg2rad(relevant_info[4]) #Right ascention of ascending node (Omega)
+        self.periapsis = np.deg2rad(relevant_info[5])   #Argument of periapsis (omega)
+        self.i = np.deg2rad(relevant_info[2])   #inclination
 
         self.time = time
         self.scn = scn
@@ -86,7 +86,7 @@ def compare_sats(file1, file2, threshold):
 
         if distance < threshold:
             enc = encounter(distance, obj.scn, comparison_sat.scn, obj.time)
-            print(enc)
+            #print(enc)
             encounters.append(enc)
 
     #import pdb; pdb.set_trace()
