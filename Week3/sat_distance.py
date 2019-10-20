@@ -8,7 +8,7 @@ encounters = [] #list of encounter objects
 
 def time_matcher(timelist1, timelist2):
     matching_times = []
-    threshold = .0003
+    threshold = .1
     for i in range(len(timelist1)):
         for j in range(len(timelist2)):
             if timelist1[i][0] != timelist2[j][0]:
@@ -69,12 +69,10 @@ def compare_sats(file1, file2, distance):
     for pair in coincide_times:
         coord1 = (cart1[0][pair[1]], cart1[1][pair[1]], cart1[2][pair[1]])
         coord2 = (cart2[0][pair[3]], cart2[1][pair[3]], cart2[2][pair[3]])
-        print(coord1, coord2)
-        distances.append(calc_distance(coord1, coord2))
         if calc_distance(coord1, coord2) < distance:
             sat_info[(pair[0], pair[2])] = calc_distance(coord1, coord2)
             
-    return sat_info, distances
+    return sat_info
     
 def compare_all_sats(min_distance):
     datasets = ['25473.txt', '26824.txt', '27438.txt', '39509.txt', '40258.txt']
