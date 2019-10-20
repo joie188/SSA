@@ -191,4 +191,3 @@ def compare_all_sats(min_distance):
 #
 #
 #
-
