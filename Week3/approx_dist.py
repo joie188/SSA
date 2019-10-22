@@ -29,8 +29,8 @@ def calc_time(txt1, txt2):
         return time1
     else:
         temp_sat = sat1
-        sat1 = sat2
-        sat2 = temp_sat
+        #sat1 = sat2
+        #sat2 = temp_sat
         return time2
 
 def set_parameters(sat_num,j):
