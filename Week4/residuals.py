@@ -70,5 +70,6 @@ for i in range(1,7):
     print('Orbital profile for satellite ' + str(i))
     fig = plt.figure()
     sat = compare_sats(i)
-    plt.plot([j for j in range(1441)], sat[0])
+    #import pdb; pdb.set_trace()
+    plt.plot([j for j in range(1441)], abs(sat[4]))
     plt.show()
