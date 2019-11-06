@@ -1,6 +1,8 @@
 import math
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 i = 53
 r = 6928
@@ -20,5 +22,5 @@ def calc_coords(elapsed_time):
     z = r*math.cos(theta)*math.sin(i)
     return x, y, z
 
-print(period)
-print(calc_coords(10))
+#print(period)
+#print(calc_coords(10)) 

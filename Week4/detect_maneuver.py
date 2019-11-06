@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.stats import norm
 #eph_data = pd.read_csv('ssa_urop_maneuver_10001.txt', header=None)
-
+'''
 def kf_predict(X, P, A, Q, B, U):
     X = np.dot(A, X) + np.dot(B, U)
     P = np.dot(A, np.dot(P, A.T)) + Q
@@ -68,4 +68,61 @@ N_iter = 50
 for i in arange(0, N_iter):
     (X, P) = kf_predict(X, P, A, Q, B, U)
     (X, P, K, IM, IS, LH) = kf_update(X, P, Y, H, R)
-    Y = np.array([[X[0,0] + abs(0.1 * randn(1)[0])],[X[1, 0] + abs(0.1 * randn(1)[0])]]) 
+    Y = np.array([[X[0,0] + abs(0.1 * randn(1)[0])],[X[1, 0] + abs(0.1 * randn(1)[0])]]) '''
+
+eph_data = pd.read_csv('ssa_urop_maneuver_10000.txt', header=None)
+x = []
+y = []
+z = []
+xv = []
+yv = []
+zv = []
+t = []
+time = 0
+for row in eph_data[0]:
+    r = row.split()
+    t.append(time)
+    time += 10
+    x.append(float(r[7]))
+    y.append(float(r[8]))
+    z.append(float(r[9]))
+    xv.append(float(r[10]))
+    yv.append(float(r[11]))
+    zv.append(float(r[12]))
+#plt.plot(t, x, linestyle="",marker="o", color='g')
+eph = pd.read_csv('ssa_urop_maneuver_10006.txt', header=None)
+xx = []
+yy = []
+zz = []
+xxv = []
+yyv = []
+zzv = []
+for row in eph[0]:
+    r = row.split()
+    xx.append(float(r[7]))
+    yy.append(float(r[8]))
+    zz.append(float(r[9]))
+    xxv.append(float(r[10]))
+    yyv.append(float(r[11]))
+    zzv.append(float(r[12]))
+for i in range(len(x)):
+    if abs (x[i] - xx[i]) > .1:
+        print("xt", t[i])
+        print(x[i])
+        print(xx[i])
+    if abs (y[i] - yy[i]) > .1:
+        print("yt", t[i])
+        print(y[i])
+        print(yy[i])
+    if abs (z[i] - zz[i]) > .1:
+        print("zt", t[i])
+    if abs (xv[i] - xxv[i]) > .1:
+        print("xt", t[i])
+        print(x[i])
+        print(xx[i])
+    if abs (yv[i] - yyv[i]) > .1:
+        print("yt", t[i])
+    if abs (zv[i] - zzv[i]) > .1:
+        print("zt", t[i])
+#plt.plot(t, x, linestyle="",marker="o", color='r')
+#plt.show()
