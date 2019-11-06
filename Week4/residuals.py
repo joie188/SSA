@@ -76,5 +76,6 @@ for i in range(1,7):
     print('Maneuver performed at ' + '5')
     fig = plt.figure()
     sat = compare_sats(i)
+
     plt.plot([j for j in range(1441)], sat[1], ls = '', marker = '.')
     plt.show()
