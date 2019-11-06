@@ -33,9 +33,14 @@ def compare_sats(sat_number):
     sat_data = output(sat)
     control = output('ssa_urop_maneuver_10000.txt')
     
-    diff = sat_data[1] - control[1]
+    param_sat = sat_data[1]
+    param_control = control[1]
+    scalar_sat = np.array([[math.sqrt(param_sat[0][i]**2+param_sat[1][i]**2+param_sat[2][i]**2) for i in range(1441)], [math.sqrt(param_sat[3][i]**2+param_sat[4][i]**2+param_sat[5][i]**2) for i in range(1441)]])
+    scalar_control = np.array([[math.sqrt(param_control[0][i]**2+param_control[1][i]**2+param_control[2][i]**2) for i in range(1441)], [math.sqrt(param_control[3][i]**2+param_control[4][i]**2+param_control[5][i]**2) for i in range(1441)]])
     
-    return diff
+    diff = scalar_sat - scalar_control
+    std = np.std(param_control[1])
+    return (param_sat - param_control)/std
 
 def mag(vector):
     return math.sqrt(sum([comp**2 for comp in vector]))
@@ -68,7 +73,8 @@ def coord_converter(x,y,z,vx,vy,vz):
 
 for i in range(1,7):
     print('Orbital profile for satellite ' + str(i))
+    print('Maneuver performed at ' + '5')
     fig = plt.figure()
     sat = compare_sats(i)
-    plt.plot([j for j in range(1441)], sat[0], linestyle="",marker=".")
+    plt.plot([j for j in range(1441)], sat[1], ls = '', marker = '.')
     plt.show()
