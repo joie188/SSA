@@ -26,7 +26,7 @@ uiApplication.Visible = True
 root=uiApplication.personality2
 
 #%%
-root.LoadScenario(r"C:\Users\Luke de Castro\Documents\STK 11 (x64)\MainChallenge")
+root.LoadScenario(r"C:\Users\Luke de Castro\Documents\STK 11 (x64)\MainChallenge\MainChallenge.sc")
 sc = root.CurrentScenario
 sc2 = sc.QueryInterface(STKObjects.IAgScenario)
 
@@ -35,3 +35,21 @@ sat = sc.Children.New(STKObjects.eSatellite, '74415')
 sat2 = sat.QueryInterface(STKObjects.IAgSatellite)
 
 #%%
+import matplotlib.pyplot as plt
+
+sat_interest = sat_dict[74415]
+params = [
+"MEAN_MOTION",
+"ECCENTRICITY",
+"INCLINATION",
+"RA_OF_ASC_NODE",
+"ARG_OF_PERICENTER",
+"MEAN_ANOMALY",
+"SEMIMAJOR_AXIS",
+"PERIOD",
+"APOGEE",
+"PERIGEE"]
+for param in params:
+    print(param)
+    plt.plot(sat_dict[74415][param])
+    plt.show()
