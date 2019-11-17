@@ -25,7 +25,6 @@ X = [data for id, data in start_dict.items()]
 
 kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
 labels = kmeans.labels_
-print(labels)
 data['clusters'] = labels
 cols.extend(['clusters'])
 
