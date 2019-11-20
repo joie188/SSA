@@ -70,9 +70,10 @@ uiApplication = CreateObject('STK11.Application')
 uiApplication.Visible = True
 root=uiApplication.personality2
 
-root.LoadScenario(r"C:\Users\Luke de Castro\Documents\STK 11 (x64)\MainChallenge")
+root.LoadScenario(r"C:\\Users\\Luke de Castro\\Documents\\STK 11 (x64)\\MainChallenge")
 sc = root.CurrentScenario
 sc2 = sc.QueryInterface(STKObjects.IAgScenario)
 
 sat = sc.Children.New(STKObjects.eSatellite, '74415')
-sat2 = sat.QueryInterface(STKObjects.IAgSatellite) '''
+#sat2 = sat.QueryInterface(STKObjects.IAgSatellite)
+'''
