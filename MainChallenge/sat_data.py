@@ -72,7 +72,6 @@ plt.title('perigee')
 plt.show()
 
      
-<<<<<<< HEAD
 from win32api import GetSystemMetrics
 import comtypes
 
@@ -89,23 +88,3 @@ sc2 = sc.QueryInterface(STKObjects.IAgScenario)
 sat = sc.Children.New(STKObjects.eSatellite, '74415')
 #sat2 = sat.QueryInterface(STKObjects.IAgSatellite)
 '''
-=======
-#from win32api import GetSystemMetrics
-#import comtypes
-#
-#from comtypes.client import CreateObject
-#
-#uiApplication = CreateObject('STK11.Application')
-#uiApplication.Visible = True
-#root=uiApplication.personality2
-#
-#
-#root.LoadScenario(r"C:\Users\Luke de Castro\Documents\STK 11 (x64)\MainChallenge\MainChallenge.sc")
-#sc = root.CurrentScenario
-#sc2 = sc.QueryInterface(STKObjects.IAgScenario)
-#
-#sat = sc.Children.New(STKObjects.eSatellite, '74415')
-#
-#sat2 = sat.QueryInterface(STKObjects.IAgSatellite) 
-
->>>>>>> f775f52748de5693e8bfbe8e6f0e91709a460609
