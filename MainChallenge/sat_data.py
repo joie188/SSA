@@ -5,7 +5,7 @@ import pandas as pd
 
 sat_dict = {}
 
-data = pd.read_csv("C:\\Users\Luke de Castro\SSA\MainChallenge\AstroYWeek1DataSet.csv")
+data = pd.read_csv("AstroYWeek1DataSet.csv")
 current_id = 0
 
 for i in range(0,len(data)):
