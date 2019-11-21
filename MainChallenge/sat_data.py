@@ -17,6 +17,7 @@ epoch_time = []
 for i in range(len(data)):
     row = data.iloc[i]
     pattern = '%Y-%m-%d %H:%M:%S'
+    #pattern = '%m/%d/%Y %H:%M'
     norm_time = int(time.mktime(time.strptime(row["EPOCH"], pattern)))
     epoch_time.append(norm_time)
 
