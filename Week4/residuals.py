@@ -40,7 +40,7 @@ def compare_sats(sat_number):
     
     diff = scalar_sat - scalar_control
     std = np.std(param_control[1])
-    return (param_sat - param_control)/std
+    return param_sat 
 
 def mag(vector):
     return math.sqrt(sum([comp**2 for comp in vector]))

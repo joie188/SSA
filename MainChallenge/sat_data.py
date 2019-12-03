@@ -9,6 +9,7 @@ import time
 sat_dict = {}
 
 data = pd.read_csv("AstroYWeek1DataSet.csv")
+
 current_id = 0
     
 epoch_time = []
@@ -77,6 +78,42 @@ for i in range(2,11):
 
 plt.show()
 
+     
+
+#from win32api import GetSystemMetrics
+#import comtypes
+#
+#from comtypes.client import CreateObject
+#
+#uiApplication = CreateObject('STK11.Application')
+#uiApplication.Visible = True
+#root=uiApplication.personality2
+#
+#root.LoadScenario(r"C:\\Users\\Luke de Castro\\Documents\\STK 11 (x64)\\MainChallenge")
+#sc = root.CurrentScenario
+#sc2 = sc.QueryInterface(STKObjects.IAgScenario)
+#
+#sat = sc.Children.New(STKObjects.eSatellite, '74415')
+#sat2 = sat.QueryInterface(STKObjects.IAgSatellite)
+#from win32api import GetSystemMetrics
+#import comtypes
+#
+#from comtypes.client import CreateObject
+#
+#uiApplication = CreateObject('STK11.Application')
+#uiApplication.Visible = True
+#root=uiApplication.personality2
+#
+#
+#root.LoadScenario(r"C:\Users\Luke de Castro\Documents\STK 11 (x64)\MainChallenge\MainChallenge.sc")
+#sc = root.CurrentScenario
+#sc2 = sc.QueryInterface(STKObjects.IAgScenario)
+#
+#sat = sc.Children.New(STKObjects.eSatellite, '74415')
+#
+#sat2 = sat.QueryInterface(STKObjects.IAgSatellite) 
+
+
     
 #from win32api import GetSystemMetrics
 #import comtypes
@@ -84,12 +121,13 @@ plt.show()
 #from comtypes.client import CreateObject
 
 #uiApplication = CreateObject('STK11.Application')
-""" uiApplication.Visible = True
-root=uiApplication.personality2
+#""" uiApplication.Visible = True
+#root=uiApplication.personality2
+#
+##root.LoadScenario(r"C:\\Users\\Luke de Castro\\Documents\\STK 11 (x64)\\MainChallenge")
+#sc = root.CurrentScenario
+#sc2 = sc.QueryInterface(STKObjects.IAgScenario)
+#
+#sat = sc.Children.New(STKObjects.eSatellite, '74415')
+##sat2 = sat.QueryInterface(STKObjects.IAgSatellite) """
 
-#root.LoadScenario(r"C:\\Users\\Luke de Castro\\Documents\\STK 11 (x64)\\MainChallenge")
-sc = root.CurrentScenario
-sc2 = sc.QueryInterface(STKObjects.IAgScenario)
-
-sat = sc.Children.New(STKObjects.eSatellite, '74415')
-#sat2 = sat.QueryInterface(STKObjects.IAgSatellite) """
