@@ -3,11 +3,13 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib as mlt
 import time
 
 #%%
 
 data = pd.read_csv("AstroYWeek1DataSet.csv")
+
 
 data = pd.read_csv("AstroYWeek2DataSeT.csv")
 
@@ -37,7 +39,7 @@ def gather_data(file, pattern_type):
     return sat_dict
 
 #%%
-        
+
 #sat_dict = gather_data("AstroYWeek2DataSeT.csv", 1)
 #sat_09191 = sat_dict[9191]
 #sat_11682 = sat_dict[11682]
@@ -115,6 +117,8 @@ def gather_data(file, pattern_type):
 #plt.title('perigee')
 #
 #plt.show()
+
+
 
      
 
