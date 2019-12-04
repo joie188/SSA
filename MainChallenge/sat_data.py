@@ -8,10 +8,6 @@ import time
 
 #%%
 
-data = pd.read_csv("AstroYWeek1DataSet.csv")
-
-
-data = pd.read_csv("AstroYWeek2DataSeT.csv")
 
 def gather_data(file, pattern_type):
     data = pd.read_csv(file)
