@@ -78,7 +78,7 @@ plt.show()
 
 
      
-
+#
 #from win32api import GetSystemMetrics
 #import comtypes
 #
@@ -94,6 +94,8 @@ plt.show()
 #
 #sat = sc.Children.New(STKObjects.eSatellite, '74415')
 #sat2 = sat.QueryInterface(STKObjects.IAgSatellite)
+#
+
 #from win32api import GetSystemMetrics
 #import comtypes
 #
