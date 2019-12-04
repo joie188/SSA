@@ -35,9 +35,11 @@ def gather_data(file, pattern_type):
     return sat_dict
 
 #%%
+sat_dict = gather_data('AstroYWeek2DataSeT.csv', 1)
+#%%
 
 sat_list = [9191, 11682, 30206, 79815]
-color_list = ['red', 'green', 'blue' 'orange']
+color_list = ['red', 'green', 'blue' ,'orange']
 
 attribute_list = ["MEAN_MOTION",
                   "ECCENTRICITY",
@@ -52,22 +54,22 @@ attribute_list = ["MEAN_MOTION",
 
 plt.close()
 
-sat_dict = gather_data('AstroYWeek2DataSeT.csv', 1)
+
 
 plt.subplot(5,2,1)
 plt.tight_layout()
 
 mlt.rcParams.update({'font.size': 18})
 for i,num in enumerate(sat_list):
-    plt.plot(sat_list[num].TIME, sat_dict[num][attribute_list[0]], color=color_list[i], label=str(num))
+    plt.plot(sat_dict[num].TIME, sat_dict[num][attribute_list[0]], color=color_list[i], label=str(num))
     plt.title(attribute_list[0].lower())
     plt.legend(loc="upper left")
 
 
 for i in range(2,11):
     plt.subplot(5,2,i)
-    for c,num in sat_list:
-        plt.plot(sat_list[num].TIME, sat_list[num][attribute_list[0]], color=color_list[c])
+    for c,num in enumerate(sat_list):
+        plt.plot(sat_dict[num].TIME, sat_dict[num][attribute_list[i-1]], color=color_list[c])
         plt.title(attribute_list[i-1].lower())
 
 
