@@ -40,83 +40,40 @@ def gather_data(file, pattern_type):
 
 #%%
 
-#sat_dict = gather_data("AstroYWeek2DataSeT.csv", 1)
-#sat_09191 = sat_dict[9191]
-#sat_11682 = sat_dict[11682]
-#sat_30206 = sat_dict[30206]
-#sat_79815 = sat_dict[79815]
-#
-#plt.subplot(5, 2, 1)
-#plt.plot(sat_09191.TIME, sat_09191.MEAN_MOTION)
-#plt.plot(sat_11682.TIME, sat_11682.MEAN_MOTION)
-#plt.plot(sat_30206.TIME, sat_30206.MEAN_MOTION)
-#plt.plot(sat_79815.TIME, sat_79815.MEAN_MOTION)
-#plt.title("mean motion")
-#
-#plt.subplot(5,2,2)
-#plt.plot(sat_09191.TIME,sat_09191.ECCENTRICITY)
-#plt.plot(sat_11682.TIME,sat_11682.ECCENTRICITY)
-#plt.plot(sat_30206.TIME,sat_30206.ECCENTRICITY)
-#plt.plot(sat_79815.TIME,sat_79815.ECCENTRICITY)
-#plt.title("eccentricity")
-#
-#plt.subplot(5,2,3)
-#plt.plot(sat_09191.TIME,sat_09191.INCLINATION)
-#plt.plot(sat_11682.TIME,sat_11682.INCLINATION)
-#plt.plot(sat_30206.TIME,sat_30206.INCLINATION)
-#plt.plot(sat_79815.TIME,sat_79815.INCLINATION)
-#plt.title('inclination')
-#
-#plt.subplot(5,2,4)
-#plt.plot(sat_09191.TIME,sat_09191.RA_OF_ASC_NODE)
-#plt.plot(sat_11682.TIME,sat_11682.RA_OF_ASC_NODE)
-#plt.plot(sat_30206.TIME,sat_30206.RA_OF_ASC_NODE)
-#plt.plot(sat_79815.TIME,sat_79815.RA_OF_ASC_NODE)
-#plt.title('ra of asc node')
-#
-#plt.subplot(5,2,5)
-#plt.plot(sat_09191.TIME,sat_09191.ARG_OF_PERICENTER)
-#plt.plot(sat_11682.TIME,sat_11682.ARG_OF_PERICENTER)
-#plt.plot(sat_30206.TIME,sat_30206.ARG_OF_PERICENTER)
-#plt.plot(sat_79815.TIME,sat_79815.ARG_OF_PERICENTER)
-#plt.title('pericenter')
-#
-#plt.subplot(5,2,6)
-#plt.plot(sat_09191.TIME,sat_09191.MEAN_ANOMALY)
-#plt.plot(sat_11682.TIME,sat_11682.MEAN_ANOMALY)
-#plt.plot(sat_30206.TIME,sat_30206.MEAN_ANOMALY)
-#plt.plot(sat_79815.TIME,sat_79815.MEAN_ANOMALY)
-#plt.title('mean anomaly')
-#
-#plt.subplot(5,2,7)
-#plt.plot(sat_09191.TIME,sat_09191.SEMIMAJOR_AXIS)
-#plt.plot(sat_11682.TIME,sat_11682.SEMIMAJOR_AXIS)
-#plt.plot(sat_30206.TIME,sat_30206.SEMIMAJOR_AXIS)
-#plt.plot(sat_79815.TIME,sat_79815.SEMIMAJOR_AXIS)
-#plt.title('semimajor axis')
-#
-#plt.subplot(5,2,8)
-#plt.plot(sat_09191.TIME,sat_09191.PERIOD)
-#plt.plot(sat_11682.TIME,sat_11682.PERIOD)
-#plt.plot(sat_30206.TIME,sat_30206.PERIOD)
-#plt.plot(sat_79815.TIME,sat_79815.PERIOD)
-#plt.title('period')
-#
-#plt.subplot(5,2,9)
-#plt.plot(sat_09191.TIME,sat_09191.APOGEE)
-#plt.plot(sat_11682.TIME,sat_11682.APOGEE)
-#plt.plot(sat_30206.TIME,sat_30206.APOGEE)
-#plt.plot(sat_79815.TIME,sat_79815.APOGEE)
-#plt.title('apogee')
-#
-#plt.subplot(5,2,10)
-#plt.plot(sat_09191.TIME,sat_09191.PERIGEE)
-#plt.plot(sat_11682.TIME,sat_11682.PERIGEE)
-#plt.plot(sat_30206.TIME,sat_30206.PERIGEE)
-#plt.plot(sat_79815.TIME,sat_79815.PERIGEE)
-#plt.title('perigee')
-#
-#plt.show()
+sat_list = [9191, 11682, 30206, 79815]
+color_list = ['red', 'green', 'blue' 'orange']
+
+attribute_list = ["MEAN_MOTION",
+                  "ECCENTRICITY",
+                  "INCLINATION",
+                  "RA_OF_ASC_NODE",
+                  "ARG_OF_PERICENTER",
+                  "MEAN_ANOMALY",
+                  "SEMIMAJOR_AXIS",
+                  "PERIOD",
+                  "APOGEE",
+                  "PERIGEE"]
+
+plt.close()
+
+plt.subplot(5,2,1)
+plt.tight_layout()
+
+mlt.rcParams.update({'font.size': 18})
+for i,num in sat_list:
+    plt.plot(sat_list[num].TIME, sat_list[num][attribute_list[0]], color=color_list[i], label=str(num))
+    plt.title(attribute_list[0].lower())
+    plt.legend(loc="upper left")
+
+
+for i in range(2,11):
+    plt.subplot(5,2,i)
+    for c,num in sat_list:
+        plt.plot(sat_list[num].TIME, sat_list[num][attribute_list[0]], color=color_list[c])
+        plt.title(attribute_list[i-1].lower())
+
+
+plt.show()
 
 
 
