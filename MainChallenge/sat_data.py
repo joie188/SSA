@@ -52,12 +52,14 @@ attribute_list = ["MEAN_MOTION",
 
 plt.close()
 
+sat_dict = gather_data('AstroYWeek2DataSeT.csv', 1)
+
 plt.subplot(5,2,1)
 plt.tight_layout()
 
 mlt.rcParams.update({'font.size': 18})
-for i,num in sat_list:
-    plt.plot(sat_list[num].TIME, sat_list[num][attribute_list[0]], color=color_list[i], label=str(num))
+for i,num in enumerate(sat_list):
+    plt.plot(sat_list[num].TIME, sat_dict[num][attribute_list[0]], color=color_list[i], label=str(num))
     plt.title(attribute_list[0].lower())
     plt.legend(loc="upper left")
 
