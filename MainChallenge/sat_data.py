@@ -57,7 +57,7 @@ plt.close()
 
 
 plt.subplot(5,2,1)
-plt.tight_layout()
+#plt.tight_layout()
 
 mlt.rcParams.update({'font.size': 18})
 for i,num in enumerate(sat_list):

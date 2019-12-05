@@ -19,16 +19,19 @@ for i in range(len(data)):
     row = data.iloc[i]
     if row['NORAD_CAT_ID'] != current_id:
         current_id = row['NORAD_CAT_ID']
-        start_dict[current_id] = [row['SEMIMAJOR_AXIS'], row['ECCENTRICITY']]
+        start_dict[current_id] = [row['INCLINATION'], row['SEMIMAJOR_AXIS']]
 #print(start_dict.items())
 X = [data for id, data in start_dict.items()]
 
 kmeans = KMeans(n_clusters=2, random_state=0).fit(X)
 labels = kmeans.labels_
+
+#import pdb; pdb.set_trace()
+
 data['clusters'] = labels
 cols.extend(['clusters'])
 
-sns.lmplot('ECCENTRICITY', 'SEMIMAJOR_AXIS', 
+sns.lmplot('INCLINATION', 'SEMIMAJOR_AXIS', 
            data=data, 
            fit_reg=False, 
            hue="clusters",  

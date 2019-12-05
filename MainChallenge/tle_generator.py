@@ -21,7 +21,7 @@ def convertToTLETime(parsed_time):
     day_fraction = (hour + (minute / 60.0)) / 24.0
     
     tle_time = year * 1000 + day + day_fraction
-    
+    #print(format(tle_time, '.8f'))
     return format(tle_time, '.8f')
 
 def gather_data(file, pattern_type):
@@ -41,6 +41,12 @@ def gather_data(file, pattern_type):
 #        epoch_time.append(norm_time)
         # tle time
         epoch_time.append(convertToTLETime(time.strptime(row["EPOCH"], pattern)))
+        
+        if row["MEAN_MOTION"] < 1:
+            #import pdb; pdb.set_trace()
+
+            data.at[i, "MEAN_MOTION"] *= 240.0
+            row = data.iloc[i]
     
     data['TIME'] = epoch_time
 
@@ -62,12 +68,19 @@ tasking = gather_data("USSTRATCOM_TASKING_REQUEST_Group2.csv", 1)
 datasets = [week1, week2, week3, week4, tasking]
 #%%
 
-sats = [74415, 9191, 11682, 30206,
-        79815, 10814, 12605, 54494,
-        55340, 58006, 75276, 87343,
-        88756, 9356, 31859, 36829,
-        45268, 47507, 70237, 72643,
-        74562, 74866, 87337, 89581, 95609]
+sats = [68, 5855, 6916, 8333, 8740, 9140, 9191, 9356, 9594, 10814, 
+        10970, 11349, 11682, 12309, 12605, 15228, 15632, 15956, 
+        16204, 16224, 16314, 16617, 18742, 21061, 24468, 24863, 
+        26864, 27643, 28692, 30000, 30206, 31859, 33499, 33960, 
+        34077, 36829, 37538, 38025, 38967, 39591, 44093, 44896, 
+        45105, 45268, 45935, 46729, 47507, 49231, 50450, 52822, 
+        53207, 54494, 55041, 55340, 57872, 58006, 59114, 60283, 
+        63646, 65215, 65817, 68564, 69128, 70082, 70237, 70502, 
+        71823, 71909, 72643, 74415, 74562, 74796, 74866, 74906, 
+        75276, 76684, 79359, 79606, 79712, 79815, 79991, 81683, 
+        83471, 86077, 86116, 86892, 87168, 87337, 87343, 88150, 
+        88756, 88819, 88854, 89581, 93428, 93836, 95609, 95991, 
+        96484, 96564, 99277]
 
 #sats = [10814]
 for id in sats:
@@ -107,8 +120,8 @@ for id in sats:
             tlefile.write(line1)
             tlefile.write(line2)
             
-            print(line1)
-            print(line2)
+#            print(line1)
+#            print(line2)
             
     tlefile.close()
     
